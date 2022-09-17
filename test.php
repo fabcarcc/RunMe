@@ -33,14 +33,14 @@ require_once 'includes/autoload.inc.php';
 //else echo "no";
 
 ////
-$u = new EUtente();
-$u->setUsername("pluto3");
-$u->setEmail("aa@bb.it");
-$u->setPassword(md5("password"));
-$u->setAdmin(true);
-$u->setId(4);
-
-USession::set('user',$u);
+//$u = new EUtente();
+//$u->setUsername("pluto3");
+//$u->setEmail("aa@bb.it");
+//$u->setPassword(md5("password"));
+//$u->setAdmin(true);
+//$u->setId(4);
+//
+//USession::set('user',$u);
 //USession::del('user');
 
 //session_start();

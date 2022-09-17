@@ -7,8 +7,8 @@
     <meta name="author" content="Fabrizio Carusi">
     <title>RunMe. - Esegui i tuoi script dal web</title>
 
-    <link href="./Assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./Assets/css/runme.css" rel="stylesheet">
+    <link href="/RunMe/Assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/RunMe/Assets/css/runme.css" rel="stylesheet">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
         <nav class="navbar navbar-expand-lg bg-light rounded" aria-label="Main Navbar">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="./Assets/img/running_red.png" alt="Logo" height="30" class="d-inline-block align-text-top">
+                    <img src="/RunMe/Assets/img/running_red.png" alt="Logo" height="30" class="d-inline-block align-text-top">
                     Run<i>Me</i><span class="text-danger"><strong>.</strong></span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars01" aria-controls="navbars01" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,24 +31,26 @@
 
                             {if !isset($user)}
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Login</a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-login">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-login {if isset($loginErrorMessage)}show{/if}">
 
-                                    <form class="px-4 py-3 needs-validation" novalidate>
+                                    <form class="px-4 py-3 needs-validation" action="/RunMe/Utente/login" method="post" novalidate>
                                         <div class="mb-3">
                                             <label for="DropdownFormUsername" class="form-label">Username:</label>
-                                            <input type="text" class="form-control" id="DropdownFormUsername"
-                                                   placeholder="Username" required>
+                                            <input type="text" name="username" class="form-control" id="DropdownFormUsername" placeholder="Username" required>
                                             <div class="invalid-feedback">
                                                 Campo richiesto!
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="DropdownFormPassword" class="form-label">Password:</label>
-                                            <input type="password" class="form-control" id="DropdownFormPassword" placeholder="Password" required>
+                                            <input type="password" name="password" class="form-control" id="DropdownFormPassword" placeholder="Password" required>
                                             <div class="invalid-feedback">
                                                 Campo Richiesto!
                                             </div>
                                         </div>
+                                        {if isset($loginErrorMessage) }
+                                        <div class="text-danger mb-3 ms-3">{$loginErrorMessage} </div>
+                                        {/if}
                                         <button type="submit" class="btn btn-primary">Login</button>
                                     </form>
                                 </div>
@@ -65,7 +67,7 @@
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                                    <li><a class="dropdown-item" href="/RunMe/Utente/logout">Logout</a></li>
                                 </ul>
                             {/if}
                         </li>
@@ -102,6 +104,6 @@
         })
     })()
 </script>
-<script src="./Assets/js/bootstrap.bundle.min.js"></script>
+<script src="/RunMe/Assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

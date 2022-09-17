@@ -6,7 +6,6 @@ class CFrontController{
     const DEFAULT_METHOD = 'mostraElenco';
 
     static function run(){
-
         $request = preg_split("#[][&?/]#", $_SERVER['REQUEST_URI']);
 
         $class = (isset($request[2]) ? "C" . $request[2] : '');

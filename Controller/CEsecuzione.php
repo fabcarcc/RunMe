@@ -2,7 +2,7 @@
 
 class CEsecuzione
 {
-    function mostraElenco(){
+    static function mostraElenco(string $loginErrorMessage = null){
         $fp = FPersistentManager::getInstance();
         $utente = USession::get('user');
         $esecuzioni = array();
@@ -22,11 +22,15 @@ class CEsecuzione
         }
 
         $view = new VEsecuzioni();
+
+        if ($loginErrorMessage) {
+            $view->assign('loginErrorMessage', $loginErrorMessage);
+        }
         $view->mostraElenco($esecuzioni);
 
     }
 
-    private function listaEsecuzioniUtente(int $idUser, bool $anchePubbliche = false) {
+    private static function listaEsecuzioniUtente(int $idUser, bool $anchePubbliche = false) {
         $fp = FPersistentManager::getInstance();
         $permessi = $fp->load("EPermesso",$idUser,"idUtente",false);
         $esecuzioni = array();
