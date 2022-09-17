@@ -1,5 +1,6 @@
-<html>
-    <body>
+{extends file="base.tpl"}
+{block name=body}
+
     Ciao!
     <table cellpadding=1 cellspacing=0 border=0 width=60%>
         {foreach $results as $r}
@@ -15,7 +16,7 @@
                 </td>
             </tr>
 
-        {foreachelse}
+            {foreachelse}
             <tr>
                 <td align="center">
                     <b> nessun risultato </b>
@@ -24,5 +25,5 @@
         {/foreach}
 
     </table>
-    </body>
-</html>
+
+{/block}

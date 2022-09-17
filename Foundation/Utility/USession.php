@@ -17,6 +17,6 @@ class USession {
 
     static function get($key) {
         if (session_status() == PHP_SESSION_NONE) session_start();
-        return $_SESSION[$key] ?? false;
+        return $_SESSION[$key] ?? null;
     }
 }

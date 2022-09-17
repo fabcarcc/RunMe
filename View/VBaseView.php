@@ -14,8 +14,9 @@ class VBaseView extends Smarty {
         $this->setCacheDir('smarty/cache');
         $this->setConfigDir('smarty/configs');
 
-        $this->assign('app_name', 'RunMe');
+        $this->assign('app_name', 'RunMe.');
 
-        //$this->caching = false;
+        $u = USession::get('user');
+        $this->assign('user',$u);
     }
 }
