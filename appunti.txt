@@ -1,0 +1,77 @@
+Appunti sparsi non in ordine....
+
+Oggetti:
+
+Utente
+  id username password email admin
+Esecuzione
+  id nome descrizione eseguibile array(parametro)
+Parametro
+  id nome descrizione pre default post obbligatorio tipo
+Permesso
+  id id_utente id_esecuzione
+Log
+  id admin utente esecuzione tipo
+
+
+
+
+
+
+
+
+Smarty ora si installa con composer, ma lo copio e lo includo da solo: non mi va di tirarmi tutto dentro.
+
+Prendo da Bookstore2 l'autoload che mi sembra meglio che includere per forza tutto.
+
+DA VERIFICARE!! Prendo da Bookstore2 l'erediatarietà delle classi View: Una sola classe base con la conf di smarty (come da doc ufficiale) e tutte le altre che la estendono.
+
+
+
+
+
+
+
+LOGIN
+
+
+bookstore:
+
+CRegistrazione funzione autentica
+chiama direttamente una funzione di FUtente che estende Fdb e setta nel costruttore tabella chiave e classe di ritorno
+così restituisce un EUtente dalla username
+
+Ottenuto l'oggetto, verifica la password
+
+
+
+
+
+Videoteca:
+
+CUser funzione login
+se GET mostra il form tramite VUser
+se POST chiama CUser::authentication();
+
+questo chiama il metodo exist della generica FPersistentManager e gli deve passare:
+- la classe (EUser da cui ricava la FUser)
+- il target (preso da costanti) che indica il metodo NickName
+- la username da controllare
+
+FPersistentManager chiama classe e metodo che gli ridà la query sql e poi la esegue e restituisce solo l'ID
+
+
+
+
+Crowd:
+
+CUtente funzione Login
+se GET mostra il form tramite VUser
+se POST chiama EnterIn
+
+questa valida il form con una funzione di VUtente (?) poi controlla username e password direttamente con un
+metodo di FUtente
+FUtente si fa da solo le query e poi le esegue tramite metodi di FDatabase
+
+
+Userò il modo di Videoteca
