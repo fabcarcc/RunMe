@@ -15,7 +15,7 @@
 <main>
     <div class="container">
 
-        <nav class="navbar navbar-expand-lg bg-light rounded" aria-label="Main Navbar">
+        <nav class="navbar navbar-expand-lg bg-light rounded border border-dark shadow" aria-label="Main Navbar">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="/RunMe/Assets/img/running_red.png" alt="Logo" height="30" class="d-inline-block align-text-top">

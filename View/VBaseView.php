@@ -21,6 +21,6 @@ class VBaseView extends Smarty {
         $this->assign('messageType',USession::get('messageType'));
 
         USession::del('message');
-        
+
     }
 }
