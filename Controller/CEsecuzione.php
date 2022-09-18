@@ -52,7 +52,9 @@ class CEsecuzione
         return $esecuzioni;
     }
 
-    function pip($a = 0, $b = 0, $c = 0){
-        echo "pip" . $a . " - " . $b . " .- " . $c;
+    function run(int $id) {
+        $authorized = false;
+        $user = USession::get('user');
+
     }
 }

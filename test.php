@@ -110,4 +110,6 @@ require_once 'includes/autoload.inc.php';
 //$p->setPost("");
 //$p->setTipo(4);
 
-CFrontController::run();
+//CFrontController::run();
+$fp = FPersistentManager::getInstance();
+if ($fp->exist('EPermesso',-1,'idUtente','3','idEsecuzione')) {echo "SI";} else {echo "NO";}

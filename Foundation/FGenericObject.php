@@ -14,6 +14,12 @@ abstract class FGenericObject
         return "SELECT * FROM " . static::TABLE . " WHERE " . $key . " = :id;";
     }
 
+    static function exist(string $key = null, string $key2 = null) {
+        if (!$key) $key = static::DEFAULT_KEY;
+        if ($key2) $end = " AND " .$key2 . " = :id2;";
+        else $end = ";";
+        return "SELECT COUNT(*) AS C FROM " . static::TABLE . " WHERE " . $key . " = :id" . $end;
+    }
 
     /**
      * Query per il caricamento di tutti gli oggetti di un certo tipo

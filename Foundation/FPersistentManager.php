@@ -70,6 +70,66 @@ class FPersistentManager
 
     /** SELECT **/
 
+    function exist(string $class, $id, string $key = NULL, $id2 = NULL, $key2 = NULL)
+    {
+        $sql = '';
+
+        if (class_exists($class)) // si verifica che l'oggetto Entity esista
+        {
+            $resource = substr($class, 1); // si ricava il nome della risorsa corrispondente all'oggetto Entity
+            $foundClass = 'F' . $resource; // si ricava il nome della corrispettiva classe Foundation
+            $method = 'exist';
+
+            if (method_exists($foundClass, $method)) {
+                if ($key) {
+                    if ($key2){
+                        $sql = $foundClass::$method($key,$key2);
+                    } else {
+                    $sql = $foundClass::$method($key);
+                    }
+                } else {
+                    $sql = $foundClass::$method();
+                }
+            }
+        }
+
+        if ($sql)
+            return $this->execExist($class, $id, $sql, $id2);
+        else return NULL;
+    }
+
+    private function execExist(string $class, $id, string $sql, $id2)
+    {
+        try {
+            $stmt = $this->db->prepare($sql);
+            if (is_integer($id)) {
+                $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+            } else {
+                $stmt->bindValue(":id", $id);
+            }
+            if (isset($id2)) {
+                if (is_integer($id2)) {
+                    $stmt->bindValue(":id2", $id2, PDO::PARAM_INT);
+                } else {
+                    $stmt->bindValue(":id2", $id2);
+                }
+            }
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+
+            $row = $stmt->fetch();
+
+            return (bool)$row['C'];
+
+        }
+        catch (PDOException $e) {
+            echo "Errore : " . $e->getMessage();
+            return null;
+        }
+    }
+
+
     /**
      * Metodo che carica dal dbms informazioni in un corrispettivo oggetto Entity.
      * @param string $class La classe dell'oggetto da caricare
