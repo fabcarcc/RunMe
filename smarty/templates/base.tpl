@@ -31,7 +31,7 @@
 
                             {if !isset($user)}
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Login</a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-login {if isset($loginErrorMessage)}show{/if}">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-login">
 
                                     <form class="px-4 py-3 needs-validation" action="/RunMe/Utente/login" method="post" novalidate>
                                         <div class="mb-3">
@@ -48,9 +48,6 @@
                                                 Campo Richiesto!
                                             </div>
                                         </div>
-                                        {if isset($loginErrorMessage) }
-                                        <div class="text-danger mb-3 ms-3">{$loginErrorMessage} </div>
-                                        {/if}
                                         <button type="submit" class="btn btn-primary">Login</button>
                                     </form>
                                 </div>
@@ -75,6 +72,13 @@
                 </div>
             </div>
         </nav>
+
+        {if isset($message)}
+        <div class="alert alert-{$messageType} alert-dismissible fade show" role="alert">
+            {$message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {/if}
 
         <div>
             {block name=body}{/block}

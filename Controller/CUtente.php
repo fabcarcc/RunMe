@@ -18,16 +18,17 @@ class CUtente
 
         if ($res) {
             USession::set('user',$u);
-            CEsecuzione::mostraElenco();
         }
         else {
             $err = "Login Errato!";
-            CEsecuzione::mostraElenco($err);
+            USession::set('message',$err);
+            USession::set('messageType','danger');
         }
+        header('Location: /RunMe');
     }
 
     static function logout(){
         USession::del('user');
-        CEsecuzione::mostraElenco();
+        header('Location: /RunMe');
     }
 }

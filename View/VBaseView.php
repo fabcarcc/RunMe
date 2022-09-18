@@ -16,7 +16,11 @@ class VBaseView extends Smarty {
 
         $this->assign('app_name', 'RunMe.');
 
-        $u = USession::get('user');
-        $this->assign('user',$u);
+        $this->assign('user',USession::get('user'));
+        $this->assign('message',USession::get('message'));
+        $this->assign('messageType',USession::get('messageType'));
+
+        USession::del('message');
+        
     }
 }
