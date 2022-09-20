@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,11 +11,11 @@
     <link href="/RunMe/Assets/css/runme.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex flex-column h-100">
 <main>
     <div class="container">
 
-        <nav class="navbar navbar-expand-lg bg-light rounded border border-dark shadow" aria-label="Main Navbar">
+        <nav class="navbar navbar-expand-lg bg-light rounded border border-dark shadow mt-1" aria-label="Main Navbar">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img src="/RunMe/Assets/img/running_red.png" alt="Logo" height="30" class="d-inline-block align-text-top">
@@ -85,8 +85,10 @@
         </div>
 
     </div>
-</main>
 
+
+</main>
+<footer class="footer mt-auto"><div class="container bg-light rounded border border-dark shadow p-1  "><p class="text-center small text-muted mb-0"><i>Fabrizio Carusi</i> for <i>Univaq</i></p></div></footer>
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (() => {

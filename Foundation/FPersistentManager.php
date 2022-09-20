@@ -181,11 +181,10 @@ class FPersistentManager
             } else {
                 $stmt->bindValue(":id", $id);
             }
-            //echo "ID: " . $id ;
+
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            //print_r($stmt);
-            echo  "<br>";
+
             $obj = NULL;
 
             if ($single_result) {
@@ -200,9 +199,7 @@ class FPersistentManager
                     $obj[] = FPersistentManager::createObjectFromRow($class, $row);
                 }
             }
-//            echo "<pre>";
-//            print_r($obj);
-//            echo "</pre>";
+
             return $obj;
         }
         catch (PDOException $e) {
