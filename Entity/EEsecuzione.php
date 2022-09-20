@@ -7,7 +7,7 @@ class EEsecuzione extends EGenericObject
     private string $eseguibile;
     private bool $mostraOutput;
     private bool $disabilitato;
-    private array $parametri;
+    private ?array $parametri;
 
     /**
      * @return string
@@ -92,7 +92,7 @@ class EEsecuzione extends EGenericObject
     /**
      * @return array
      */
-    public function getParametri(): array
+    public function getParametri(): ?array
     {
         return $this->parametri;
     }
@@ -100,10 +100,15 @@ class EEsecuzione extends EGenericObject
     /**
      * @param mixed $parametri
      */
-    public function setParametri(array $parametri): void
+    public function setParametri(?array $parametri): void
     {
         $this->parametri = $parametri;
     }
 
+    public function caricaParametri(){
+        $fp = FPersistentManager::getInstance();
+        $param = $fp->load('EParametro', $this->getId(), 'idEsecuzione', false);
+        $this->setParametri($param);
+    }
 
 }

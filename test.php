@@ -112,4 +112,17 @@ require_once 'includes/autoload.inc.php';
 
 //CFrontController::run();
 $fp = FPersistentManager::getInstance();
-if ($fp->exist('EPermesso',-1,'idUtente','3','idEsecuzione')) {echo "SI";} else {echo "NO";}
+
+//if ($fp->exist('EPermesso',-1,'idUtente','3','idEsecuzione')) {echo "SI";} else {echo "NO";}
+//echo "<pre>";
+//print_r($fp->load('EParametro',1, 'idEsecuzione',false));
+//echo "</pre>";
+echo "<pre>";
+$e = $fp->load("EEsecuzione",1);
+
+//print_r($e);
+
+$e->caricaParametri();
+print_r($e);
+
+echo "</pre>";

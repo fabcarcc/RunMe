@@ -2,7 +2,7 @@
 
 class CEsecuzione
 {
-    static function mostraElenco(string $loginErrorMessage = null){
+    static function mostraElenco(){
         $fp = FPersistentManager::getInstance();
         $utente = USession::get('user');
         $esecuzioni = array();
@@ -21,11 +21,7 @@ class CEsecuzione
             }
         }
 
-        $view = new VEsecuzioni();
-
-        if ($loginErrorMessage) {
-            $view->assign('loginErrorMessage', $loginErrorMessage);
-        }
+        $view = new VEsecuzione();
         $view->mostraElenco($esecuzioni);
 
     }
@@ -52,9 +48,91 @@ class CEsecuzione
         return $esecuzioni;
     }
 
-    function run(int $id) {
-        $authorized = false;
-        $user = USession::get('user');
+    static function run(int $id) {
+        if (!static::autorizzato($id)) {
+            header("HTTP/1.1 403 Forbidden");
+            exit();
+        }
+
+        $fp = FPersistentManager::getInstance();
+        $esecuzione = $fp->load('EEsecuzione', $id);
+
+        if ($_SERVER['REQUEST_METHOD']=="GET") {
+            $view = new VEsecuzione();
+            $view->mostraForm($esecuzione);
+        }
+        else if ($_SERVER['REQUEST_METHOD']=="POST") {
+            $esecuzione->caricaParametri();
+            static::esegui($esecuzione,$_POST);
+        }
+
 
     }
+
+    private static function esegui($esecuzione, $param){
+        global $config;
+        $c = $config['scriptDir'] . $esecuzione->getEseguibile();
+        $msg = '';
+
+        if (!is_executable($c)) {
+            $msg = "L'esecuzione selezionata non è valida e non può essere eseguita.<br>Contatta l'Amministratore";
+            USession::set('message',$msg);
+            USession::set('messageType','warning');
+
+            $view = new VEsecuzione();
+            $view->mostraOutput();
+
+        }
+        else {
+            foreach ($esecuzione->getParametri() as $p){
+                if ($p->getObbligatorio() || isset($param['check'.$p->getId()])) {
+                    $c .= " " . $p->getPre() . $param['val'.$p->getId()] . $p->getPost();
+                }
+            }
+            $output=null;
+            $retval=null;
+            exec($c, $output, $retval);
+
+            if ($retval == 0) {
+                $msg = "Il comando è stato eseguito correttamente!<br>";
+                USession::set('messageType','success');
+            }
+            else{
+                $msg = "Il comando è stato eseguito ma ha restituito un errore!<br>";
+                USession::set('messageType','danger');
+            }
+
+            if ($esecuzione->getMostraOutput()) {
+                $msg .= "<br><strong>Output:</strong><br><br>";
+                $msg .= "<p class=\"font-monospace\">";
+                foreach ($output as $row) {
+                    $msg .= $row . "<br>";
+                }
+                $msg .= "</p>";
+            }
+            USession::set('message',$msg);
+
+            $view = new VEsecuzione();
+            $view->mostraOutput($esecuzione->getId());
+
+        }
+
+
+    }
+
+    private static function autorizzato(int $id){
+        $idUtente = -1;
+        $user = USession::get('user');
+        if ($user) {
+            if($user->getAdmin()) return true;
+            $idUtente = $user->getId();
+        }
+
+        $fp = FPersistentManager::getInstance();
+        return $fp->exist('EPermesso',$idUtente,'idUtente', $id,'idEsecuzione');
+    }
+
+
+
+
 }

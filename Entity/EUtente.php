@@ -15,7 +15,7 @@ class EUtente extends EGenericObject
 {
     private string $username;
     private string $password;
-    private string $email;
+    private ?string $email;
     private bool $admin;
 
     /**
@@ -45,7 +45,7 @@ class EUtente extends EGenericObject
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }

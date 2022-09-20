@@ -30,7 +30,7 @@ class FPersistentManager
             global $config;
             $dsn = "mysql:host=" . $config['mysql']['host'] . ";dbname=" . $config['mysql']['database'];
             $this->db = new PDO ($dsn, $config['mysql']['user'], $config['mysql']['password']);
-            //echo "DB Connesso";
+//            echo "DB Connesso";
 
         } catch (PDOException $e) {
             echo "Errore : " . $e->getMessage();
@@ -45,7 +45,7 @@ class FPersistentManager
     {
         $this->db = null;
         static::$instance = null;
-        //echo "DB sconnesso";
+//        echo "DB sconnesso";
     }
 
     /**
@@ -157,9 +157,10 @@ class FPersistentManager
             }
         }
 
-        if ($sql)
+        if ($sql) {
+            //echo $sql;
             return $this->execSelect($class, $id, $sql, $single_result);
-        else return NULL;
+        } else return NULL;
     }
 
     /**
@@ -180,19 +181,28 @@ class FPersistentManager
             } else {
                 $stmt->bindValue(":id", $id);
             }
+            //echo "ID: " . $id ;
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
+            //print_r($stmt);
+            echo  "<br>";
             $obj = NULL;
 
             if ($single_result) {
+                //echo "SINGLE ";
                 $row = $stmt->fetch();
                 $obj = FPersistentManager::createObjectFromRow($class, $row);
             } else {
+                //echo "NOSINGLE ";
                 while ($row = $stmt->fetch()) {
+                    //echo "WHILE ";
+                    //print_r($row);
                     $obj[] = FPersistentManager::createObjectFromRow($class, $row);
                 }
             }
+//            echo "<pre>";
+//            print_r($obj);
+//            echo "</pre>";
             return $obj;
         }
         catch (PDOException $e) {
@@ -399,4 +409,33 @@ class FPersistentManager
         return $obj;
     }
 
+    function prova(){
+        $sql = "select * from Parametri where idEsecuzione = 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        //$obj = NULL;
+
+        while ($row = $stmt->fetch()) {
+            echo "<pre>";
+            print_r($row);
+            echo "</pre>";
+        }
+
+        $sql = "select * from Esecuzioni where id = 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        //$obj = NULL;
+
+        while ($row = $stmt->fetch()) {
+            echo "<pre>";
+            print_r($row);
+            echo "</pre>";
+        }
+
+
+    }
 }

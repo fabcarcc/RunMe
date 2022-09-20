@@ -5,9 +5,9 @@ class EParametro extends EGenericObject
     private int $idEsecuzione;
     private string $nome;
     private string $descrizione;
-    private string $pre;
-    private string $valore;
-    private string $post;
+    private ?string $pre;
+    private ?string $valore;
+    private ?string $post;
     private bool $obbligatorio;
     private int $tipo;
 
@@ -62,7 +62,7 @@ class EParametro extends EGenericObject
     /**
      * @return string
      */
-    public function getPre(): string
+    public function getPre(): ?string
     {
         return $this->pre;
     }
@@ -70,7 +70,7 @@ class EParametro extends EGenericObject
     /**
      * @param string $pre
      */
-    public function setPre(string $pre): void
+    public function setPre(?string $pre): void
     {
         $this->pre = $pre;
     }
@@ -78,7 +78,7 @@ class EParametro extends EGenericObject
     /**
      * @return string
      */
-    public function getValore(): string
+    public function getValore(): ?string
     {
         return $this->valore;
     }
@@ -86,7 +86,7 @@ class EParametro extends EGenericObject
     /**
      * @param string $valore
      */
-    public function setValore(string $valore): void
+    public function setValore(?string $valore): void
     {
         $this->valore = $valore;
     }
@@ -94,7 +94,7 @@ class EParametro extends EGenericObject
     /**
      * @return string
      */
-    public function getPost(): string
+    public function getPost(): ?string
     {
         return $this->post;
     }
@@ -102,7 +102,7 @@ class EParametro extends EGenericObject
     /**
      * @param string $post
      */
-    public function setPost(string $post): void
+    public function setPost(?string $post): void
     {
         $this->post = $post;
     }
