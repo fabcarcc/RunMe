@@ -3,8 +3,8 @@
 class FParametro extends FGenericObject
 {
     const TABLE = 'Parametri';
-    const COLUMN = array("idEsecuzione", "nome", "descrizione", "pre", "valore", "post", "obbligatorio", "tipo");
-    const COLUMN_TYPE = array(PDO::PARAM_INT, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_BOOL, PDO::PARAM_INT);
+    const COLUMN = array("idEsecuzione", "nome", "descrizione", "pre", "valore", "post", "tipoParametro", "tipoValore");
+    const COLUMN_TYPE = array(PDO::PARAM_INT, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_INT, PDO::PARAM_INT);
     const ENTITY_CLASS = "EParametro";
 
 

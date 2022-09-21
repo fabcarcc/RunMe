@@ -8,8 +8,23 @@ class EParametro extends EGenericObject
     private ?string $pre;
     private ?string $valore;
     private ?string $post;
-    private bool $obbligatorio;
-    private int $tipo;
+
+    /**
+     * @var int $tipoParametro
+     * 0: Parametro Obbligatorio
+     * 1: Parametro Facoltativo default attivo
+     * 2: Parametro Facoltativo default NON attivo
+     * 3: Parametro Nascosto
+     */
+    private int $tipoParametro;
+
+    /**
+     * @var int $tipoValore
+     * 0: Nessun Valore
+     * 1: stringa (può essere vuota)
+     * 2: stringa (NON può essere vuota)
+     */
+    private int $tipoValore;
 
     /**
      * @return int
@@ -100,7 +115,7 @@ class EParametro extends EGenericObject
     }
 
     /**
-     * @param string $post
+     * @param ?string $post
      */
     public function setPost(?string $post): void
     {
@@ -108,35 +123,35 @@ class EParametro extends EGenericObject
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function getObbligatorio(): bool
+    public function getTipoParametro(): int
     {
-        return $this->obbligatorio;
+        return $this->tipoParametro;
     }
 
     /**
-     * @param bool $obbligatorio
+     * @param int $tipoParametro
      */
-    public function setObbligatorio(bool $obbligatorio): void
+    public function setTipoParametro(int $tipoParametro): void
     {
-        $this->obbligatorio = $obbligatorio;
+        $this->tipoParametro = $tipoParametro;
     }
 
     /**
      * @return int
      */
-    public function getTipo(): int
+    public function getTipoValore(): int
     {
-        return $this->tipo;
+        return $this->tipoValore;
     }
 
     /**
-     * @param int $tipo
+     * @param int $tipoValore
      */
-    public function setTipo(int $tipo): void
+    public function setTipoValore(int $tipoValore): void
     {
-        $this->tipo = $tipo;
+        $this->tipoValore = $tipoValore;
     }
 
 }

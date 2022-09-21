@@ -50,6 +50,7 @@ class CEsecuzione
 
     static function run(int $id) {
         if (!static::autorizzato($id)) {
+            echo "Forbidden";
             header("HTTP/1.1 403 Forbidden");
             exit();
         }
@@ -66,7 +67,6 @@ class CEsecuzione
             static::esegui($esecuzione,$_POST);
         }
 
-
     }
 
     private static function esegui($esecuzione, $param){
@@ -75,7 +75,7 @@ class CEsecuzione
         $msg = '';
 
         if (!is_executable($c)) {
-            $msg = "L'esecuzione selezionata non è valida e non può essere eseguita.<br>Contatta l'Amministratore";
+            $msg = "Il comando selezionato non è valido e non può essere eseguito.<br>Contatta l'Amministratore";
             USession::set('message',$msg);
             USession::set('messageType','warning');
 
@@ -84,9 +84,23 @@ class CEsecuzione
 
         }
         else {
-            foreach ($esecuzione->getParametri() as $p){
-                if ($p->getObbligatorio() || isset($param['check'.$p->getId()])) {
-                    $c .= " " . $p->getPre() . $param['val'.$p->getId()] . $p->getPost();
+            if ($esecuzione->getParametri()) {
+                foreach ($esecuzione->getParametri() as $p){
+                    // Parametro nascosto, valore da DB
+                    if ($p->getTipoParametro() == 3) {
+                        $c .= " " . $p->getPre() . $p->getValore() . $p->getPost();
+                    }
+                    // Parametri obbligatori o selezionati
+                    if ($p->getTipoParametro() == 0 || isset($param['check'.$p->getId()])) {
+                        // Tipo senza valore, valore da DB
+                        if ($p->getTipoValore() == 0) {
+                            $c .= " " . $p->getPre() . $p->getValore() . $p->getPost();
+                        }
+                        else {
+                            // Tipo con valore, valore da form
+                            $c .= " " . $p->getPre() . $param['val'.$p->getId()] . $p->getPost();
+                        }
+                    }
                 }
             }
             $output=null;
@@ -121,15 +135,19 @@ class CEsecuzione
     }
 
     private static function autorizzato(int $id){
-        $idUtente = -1;
+
+        $fp = FPersistentManager::getInstance();
         $user = USession::get('user');
         if ($user) {
             if($user->getAdmin()) return true;
-            $idUtente = $user->getId();
+            return (
+                $fp->exist('EPermesso',$user->getId(),'idUtente', $id,'idEsecuzione') ||
+                $fp->exist('EPermesso',-1,'idUtente', $id,'idEsecuzione')
+            );
         }
-
-        $fp = FPersistentManager::getInstance();
-        return $fp->exist('EPermesso',$idUtente,'idUtente', $id,'idEsecuzione');
+        else {
+            return $fp->exist('EPermesso',-1,'idUtente', $id,'idEsecuzione');
+        }
     }
 
 
