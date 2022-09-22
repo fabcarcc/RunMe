@@ -5,6 +5,7 @@ class ELog extends EGenericObject
     private int $idAdmin;
     private int $idUtente;
     private int $idEsecuzione;
+    private int $data;
     private int $tipo;
     private string $testo;
 
@@ -87,6 +88,23 @@ class ELog extends EGenericObject
     {
         $this->testo = $testo;
     }
+
+    /**
+     * @return int
+     */
+    public function getData(): int
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setData(int $data): void
+    {
+        $this->data = $data;
+    }
+
 
 
 }
