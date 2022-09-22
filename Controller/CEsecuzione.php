@@ -79,6 +79,7 @@ class CEsecuzione
             USession::set('message',$msg);
             USession::set('messageType','warning');
 
+            CLog::generaLog(1,null, USession::get('user'), $esecuzione);
             $view = new VEsecuzione();
             $view->mostraOutput();
 
@@ -106,6 +107,8 @@ class CEsecuzione
             $output=null;
             $retval=null;
             exec($c, $output, $retval);
+
+            CLog::generaLog(0,null, USession::get('user'), $esecuzione);
 
             if ($retval == 0) {
                 $msg = "Il comando è stato eseguito correttamente!<br>";
