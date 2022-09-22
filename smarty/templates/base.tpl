@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Fabrizio Carusi">
+    <link rel="icon" type="image/x-icon" href="/RunMe/Assets/img/favicon.ico">
     <title>RunMe. - Esegui i tuoi script dal web</title>
 
     <link href="/RunMe/Assets/css/bootstrap.min.css" rel="stylesheet">
