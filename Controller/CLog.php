@@ -2,6 +2,9 @@
 
 class CLog
 {
+
+    const DEFAULT_METHOD = 'generaLog';
+
     static function generaLog(int $tipo, EUtente $admin = null, EUtente $user = null, EEsecuzione $esecuzione = null) {
         $log = new ELog();
         $log->setTipo($tipo);

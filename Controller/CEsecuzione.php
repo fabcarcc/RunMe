@@ -2,6 +2,8 @@
 
 class CEsecuzione
 {
+    const DEFAULT_METHOD = 'mostraElenco';
+
     static function mostraElenco(){
         $fp = FPersistentManager::getInstance();
         $utente = USession::get('user');
