@@ -3,7 +3,7 @@
 class CLog
 {
 
-    const DEFAULT_METHOD = 'generaLog';
+    const DEFAULT_METHOD = 'mostraElenco';
 
     static function generaLog(int $tipo, EUtente $admin = null, EUtente $user = null, EEsecuzione $esecuzione = null) {
         $log = new ELog();
@@ -13,5 +13,9 @@ class CLog
         if ($esecuzione) $log->setIdEsecuzione($esecuzione->getId());
         $log->generaTesto($admin, $user, $esecuzione);
         $log->save();
+    }
+
+    static function mostraElenco(){
+        echo "Ciao";
     }
 }

@@ -7,45 +7,54 @@ class CFrontController{
 
     static function run(){
         $request = preg_split("#[][&?/]#", $_SERVER['REQUEST_URI']);
-        $error = false;
+        if ($request[count($request)-1] == '') array_pop($request);
+        $error = 0;
 
-        $class = ($request[2] != '' ? "C" . $request[2] : static::DEFAULT_CONTROLLER);
-
-        if (!class_exists($class)) { echo "E1"; $error = true;}
-        else {
-            $method = '';
-            if (isset($request[3])) $method = $request[3];
-            elseif (defined("$class::DEFAULT_METHOD")) $method = $class::DEFAULT_METHOD;
-            if ($method == '') { echo "E2"; $error = true;}
+        if (count($request) == 2) {
+            $class = static::DEFAULT_CONTROLLER;
+            $method = $class::DEFAULT_METHOD;
+            $class::$method();
+        }
+        elseif (count($request) == 3) {
+            $class = "C" . $request[2];
+            if (!class_exists($class)) { $error = 1;}
+            elseif (!defined("$class::DEFAULT_METHOD")) { $error = 2;}
             else {
-                if (!method_exists($class, $method)) { echo "E3"; $error = true;}
+                $method = $class::DEFAULT_METHOD;
+                if (!method_exists($class, $method)) { $error = 3;}
+                else $class::$method();
+            }
+        }
+        else {
+            $class = "C" . $request[2];
+            $method = $request[3];
+            if (! (class_exists($class) && method_exists($class, $method))) { $error = 4;}
+            else {
+                $rm = new ReflectionMethod("$class::$method");
+                if (count($request) - 4 != $rm->getNumberOfParameters()) { $error = 5;}
                 else {
-                    $rm = new ReflectionMethod("$class::$method");
-                    if (count($request) > 4 && count($request) - 4 != $rm->getNumberOfParameters()) { echo "E4"; $error = true;}
-                    else {
-                        switch (count($request)) {
-                            case 3:
-                            case 4:
-                                $class::$method();
-                                break;
-                            case 5:
-                                $class::$method($request[4]);
-                                break;
-                            case 6:
-                                $class::$method($request[4], $request[5]);
-                                break;
-                            case 7:
-                                $class::$method($request[4], $request[5], $request[6]);
-                                break;
-                            default:
-                                echo "E5"; $error = true;
-                        }
+                    switch (count($request)) {
+                        case 4:
+                            $class::$method();
+                            break;
+                        case 5:
+                            $class::$method($request[4]);
+                            break;
+                        case 6:
+                            $class::$method($request[4], $request[5]);
+                            break;
+                        case 7:
+                            $class::$method($request[4], $request[5], $request[6]);
+                            break;
+                        default:
+                            $error = 6;
                     }
                 }
             }
         }
+
         if ($error) {
-            echo "Invalid URL";
+            echo "Invalid URL " . $error;
             die;
         }
 
