@@ -18,7 +18,7 @@
 
         <nav class="navbar navbar-expand-lg bg-light rounded border border-dark shadow mt-1" aria-label="Main Navbar">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/RunMe/">
                     <img src="/RunMe/Assets/img/running_red.png" alt="Logo" height="30" class="d-inline-block align-text-top">
                     Run<i>Me</i><span class="text-danger"><strong>.</strong></span>
                 </a>
@@ -58,9 +58,9 @@
                                     {if $user->getAdmin()}
                                         <li><a class="dropdown-item" href="#">Gestisci Utenti</a></li>
                                         <li><a class="dropdown-item" href="#">Gestisci Permessi</a></li>
-                                        <li><a class="dropdown-item" href="#">Visualizza Log</a></li>
+                                        <li><a class="dropdown-item" href="/RunMe/Log">Visualizza Log</a></li>
                                     {else}
-                                        <li><a class="dropdown-item" href="#">Visualizza Log</a></li>
+                                        <li><a class="dropdown-item" href="/RunMe/Log">Visualizza Log</a></li>
                                     {/if}
                                     <li>
                                         <hr class="dropdown-divider">

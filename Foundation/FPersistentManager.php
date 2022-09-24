@@ -406,33 +406,4 @@ class FPersistentManager
         return $obj;
     }
 
-    function prova(){
-        $sql = "select * from Parametri where idEsecuzione = 1";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-        //$obj = NULL;
-
-        while ($row = $stmt->fetch()) {
-            echo "<pre>";
-            print_r($row);
-            echo "</pre>";
-        }
-
-        $sql = "select * from Esecuzioni where id = 1";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-        //$obj = NULL;
-
-        while ($row = $stmt->fetch()) {
-            echo "<pre>";
-            print_r($row);
-            echo "</pre>";
-        }
-
-
-    }
 }

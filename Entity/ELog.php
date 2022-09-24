@@ -5,7 +5,7 @@ class ELog extends EGenericObject
     private ?int $idAdmin = null;
     private ?int $idUtente = null;
     private ?int $idEsecuzione = null;
-    private ?int $data = null;
+    private ?string $data = null;
     /**
      * @var int Il Tipo di log
      * 0 - L'utente lancia una esecuzione
@@ -110,7 +110,7 @@ class ELog extends EGenericObject
     /**
      * @return int
      */
-    public function getData(): ?int
+    public function getData(): ?string
     {
         return $this->data;
     }
@@ -118,7 +118,7 @@ class ELog extends EGenericObject
     /**
      * @param int $data
      */
-    public function setData(?int $data): void
+    public function setData(?string $data): void
     {
         $this->data = $data;
     }
