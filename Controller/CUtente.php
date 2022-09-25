@@ -77,7 +77,69 @@ class CUtente
     }
 
     private static function modificaUtente($target, $val){
-        echo "MOD";
+        $loggedUser = USession::get('user');
+        $modificato = false;
+        $admin = 0;
+        $abilitato = 0;
+        $resta = false;
+        if (
+            ( $val['password'] != '' && $val['password2'] == '' ) ||
+            ( $val['password'] == '' && $val['password2'] != '' ) ||
+            ( $val['password'] != '' && $val['password2'] != '' && $val['password'] != $val['password2'])
+        ) {
+            $resta = true;
+            $msg = "Le password non coincidono";
+            USession::set('message',$msg);
+            USession::set('messageType','warning');
+        }
+        else {
+            if ($val['password'] != '') {
+                $target->setPassword(md5($val['password']));
+                $modificato = true;
+            }
+            if ($val['email'] != $target->getEmail()) {
+                $target->setEmail($val['email']);
+                $modificato = true;
+            }
+            if (isset($val['admin']) && !$target->getAdmin()) {
+                $target->setAdmin(true);
+                $admin = 1;
+            }
+            if (!isset($val['admin']) && $target->getAdmin()) {
+                $target->setAdmin(false);
+                $admin = -1;
+            }
+            if (isset($val['abilitato']) && !$target->getAbilitato()) {
+                $target->setAbilitato(true);
+                $abilitato = 1;
+            }
+            if (!isset($val['abilitato']) && $target->getAbilitato()) {
+                $target->setAbilitato(false);
+                $abilitato = -1;
+            }
+
+            if ($modificato || $admin || $abilitato) {
+                if ($target->save()) {
+                    if ($modificato) CLog::generaLog(12,$loggedUser,$target);
+                    if ($admin == 1) CLog::generaLog(18,$loggedUser,$target);
+                    if ($admin == -1) CLog::generaLog(19,$loggedUser,$target);
+                    if ($abilitato == 1) CLog::generaLog(16,$loggedUser,$target);
+                    if ($abilitato == -1) CLog::generaLog(17,$loggedUser,$target);
+                    $msg = "Utente Modificato correttamente";
+                    USession::set('message',$msg);
+                    USession::set('messageType','success');
+                }
+                else {
+                    $msg = "Errore nella modifica dell'utente!";
+                    USession::set('message',$msg);
+                    USession::set('messageType','error');
+                }
+            }
+            else $resta = true;
+        }
+        if ($resta) header('Location: /RunMe/Utente/newmod/' . $target->getId());
+        else header('Location: /RunMe/Utente');
+
     }
 
     private static function creaUtente($val){
