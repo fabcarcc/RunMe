@@ -41,10 +41,7 @@ class CLog
         else $targetUser = $fp->load('EUtente', $iduser);
 
         $view = new VLog();
-        if ($user->getAdmin()) $view->assign('Admin', true);
-        $view->assign('Logs',$logs);
-        $view->assign('targetUser', $targetUser);
-        $view->display('logElenco.tpl');
+        $view->mostraLog($logs, $targetUser, $user->getAdmin());
     }
 
     static function mostraLogEsecuzione(int $idesecuzione) {
@@ -56,11 +53,7 @@ class CLog
 
         $targetEsecuzione = $fp->load('EEsecuzione', $idesecuzione);
         $view = new VLog();
-        $view->assign('Admin', true);
-        $view->assign('Logs',$logs);
-        $view->assign('targetEsecuzione', $targetEsecuzione);
-        $view->display('logElenco.tpl');
-
+        $view->mostraLog($logs, $targetEsecuzione);
     }
 
     private static function mostraSelect(){
@@ -68,9 +61,7 @@ class CLog
         $utenti = $fp->getAll('EUtente');
         $esecuzioni = $fp->getAll('EEsecuzione');
         $view = new VLog();
-        $view->assign('Utenti', $utenti);
-        $view->assign('Esecuzioni', $esecuzioni);
-        $view->display('logSelect.tpl');
+        $view->mostraSelect($utenti, $esecuzioni);
     }
 
     private static function nonAutorizzato() {
