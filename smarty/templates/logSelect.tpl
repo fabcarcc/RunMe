@@ -17,13 +17,10 @@
                 <div class="list-group text-start mt-3 mb-3">
                     {foreach $Utenti as $u}
                        <a href="/RunMe/Log/mostraLogUtente/{$u->getId()}" class="list-group-item list-group-item-action
-                       {if ($u->getId() == -1)}
-                            list-group-item-secondary "><i>_ Utente Anonimo _</i></a>
-                       {else}
-                           {if ($u->getAdmin()) } list-group-item-primary{/if}
-                           {if (!$u->getAbilitato())} text-muted fst-italic{/if}
-                           ">{$u->getUsername()}</a>
-                       {/if}
+                       {if ($u->getId() == -1)} list-group-item-secondary {/if}
+                       {if ($u->getAdmin()) } list-group-item-primary{/if}
+                       {if (!$u->getAbilitato())} text-muted fst-italic{/if}
+                       ">{$u->getUsername()}</a>
                     {/foreach}
                 </div>
             </div>
