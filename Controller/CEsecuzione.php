@@ -51,14 +51,12 @@ class CEsecuzione
     }
 
     static function run(int $id) {
-        if (!static::autorizzato($id)) {
-            echo "Forbidden";
-            header("HTTP/1.1 403 Forbidden");
-            exit();
-        }
+        if (!static::autorizzato($id)) CFrontController::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
         $esecuzione = $fp->load('EEsecuzione', $id);
+
+        if (!$esecuzione) CFrontController::nonValido();
 
         if ($_SERVER['REQUEST_METHOD']=="GET") {
             $view = new VEsecuzione();

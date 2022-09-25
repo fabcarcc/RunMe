@@ -14,6 +14,8 @@ class ELog extends EGenericObject
      * 10 - L'Admin crea un utente
      * 11 - L'Admin elimina un utente
      * 12 - L'Admin modifica un utente
+     * 16 - L'Admin abilita l'utente
+     * 17 - L'Admin disabilita l'utente
      * 18 - L'Admin da i diritti di amministrazione a un utente
      * 19 - L'Admin toglie i diritti di amministrazione a un utente
      *
@@ -138,6 +140,28 @@ class ELog extends EGenericObject
                 else
                     $msg = "L'utente <i>anonimo</i> ha cercato di eseguire <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ") ma questa non è valida";
                 break;
+            case 10:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha creato l'utente <strong>" . $user->getUsername() . "</strong>";
+                break;
+            case 11:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha eliminato l'utente <strong>" . $user->getUsername() . "</strong>";
+                break;
+            case 12:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha modificato l'utente <strong>" . $user->getUsername() . "</strong>";
+                break;
+            case 16:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha abilitato l'utente <strong>" . $user->getUsername() . "</strong>";
+                break;
+            case 17:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha disabilitato l'utente <strong>" . $user->getUsername() . "</strong>";
+                break;
+            case 18:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha concessso i diritti di amministratore a <strong>" . $user->getUsername() . "</strong>";
+                break;
+            case 19:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha revocato i diritti di amministratore a <strong>" . $user->getUsername() . "</strong>";
+                break;
+
         }
         $this->setTesto($msg);
     }

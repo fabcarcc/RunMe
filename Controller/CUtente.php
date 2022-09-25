@@ -2,7 +2,7 @@
 
 class CUtente
 {
-    const DEFAULT_METHOD = "run";
+    const DEFAULT_METHOD = "mostraElenco";
 
     static function login(){
         $res = false;
@@ -34,5 +34,94 @@ class CUtente
     static function logout(){
         USession::del('user');
         header('Location: /RunMe');
+    }
+
+    static function mostraElenco(){
+        $user = USession::get('user');
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+
+        $fp = FPersistentManager::getInstance();
+        $utenti = $fp->getAll('EUtente');
+
+        $view = new VUtente();
+        $view->mostraElenco($utenti);
+
+    }
+
+    static function newmod(int $id = null){
+        $user = USession::get('user');
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ($id){
+            if ($id == -1) CFrontController::nonValido();
+            $fp = FPersistentManager::getInstance();
+            $target = $fp->load('EUtente', $id);
+            if (!$target) CFrontController::nonValido();
+
+            if ($_SERVER['REQUEST_METHOD']=="GET") {
+                $view = new VUtente();
+                $view->mostraForm($target);
+            }
+            else if ($_SERVER['REQUEST_METHOD']=="POST") {
+                static::modificaUtente($target,$_POST);
+            }
+        }
+        else{
+            if ($_SERVER['REQUEST_METHOD']=="GET") {
+                $view = new VUtente();
+                $view->mostraForm();
+            }
+            else if ($_SERVER['REQUEST_METHOD']=="POST") {
+                static::creaUtente($_POST);
+            }
+        }
+    }
+
+    private static function modificaUtente($target, $val){
+        echo "MOD";
+    }
+
+    private static function creaUtente($val){
+        $loggedUser = USession::get('user');
+        $resta = false;
+        if ($val['password'] != $val['password2']) {
+            $resta = true;
+            $msg = "Le password non coincidono";
+            USession::set('message',$msg);
+            USession::set('messageType','warning');
+        }
+        else {
+            $fp = FPersistentManager::getInstance();
+            if ($fp->exist('EUtente',$val['username'],'username')) {
+                $resta = true;
+                $msg = "Lo Username indicato è già in uso";
+                USession::set('message',$msg);
+                USession::set('messageType','warning');
+            }
+            else {
+                $u = new EUtente();
+                $u->setUsername($val['username']);
+                $u->setPassword(md5($val['password']));
+                $u->setEmail($val['email']);
+                $u->setAdmin(isset($val['admin']));
+                $u->setAbilitato(isset($val['abilitato']));
+
+                if ($u->save()) {
+                    CLog::generaLog(10,$loggedUser,$u);
+                    if ($u->getAdmin()) CLog::generaLog(18,$loggedUser,$u);
+                    if (!$u->getAbilitato()) CLog::generaLog(17,$loggedUser,$u);
+                    $msg = "Utente Creato correttamente";
+                    USession::set('message',$msg);
+                    USession::set('messageType','success');
+                }
+                else {
+                    $msg = "Errore nella creazione dell'utente!";
+                    USession::set('message',$msg);
+                    USession::set('messageType','error');
+                }
+            }
+        }
+        if ($resta) header('Location: /RunMe/Utente/newmod');
+        else header('Location: /RunMe/Utente');
+
     }
 }

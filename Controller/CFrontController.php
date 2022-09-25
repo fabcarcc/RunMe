@@ -31,7 +31,8 @@ class CFrontController{
             if (! (class_exists($class) && method_exists($class, $method))) { $error = 4;}
             else {
                 $rm = new ReflectionMethod("$class::$method");
-                if (count($request) - 4 != $rm->getNumberOfParameters()) { $error = 5;}
+                $par = count($request) - 4;
+                if ($par > $rm->getNumberOfParameters() || $par < $rm->getNumberOfRequiredParameters()) { $error = 5;}
                 else {
                     switch (count($request)) {
                         case 4:
@@ -52,11 +53,18 @@ class CFrontController{
                 }
             }
         }
+        if ($error) static::nonValido();
+    }
 
-        if ($error) {
-            echo "Invalid URL " . $error;
-            die;
-        }
+    static function nonAutorizzato() {
+        echo "Forbidden";
+        header("HTTP/1.1 403 Forbidden");
+        exit();
+    }
 
+    static function nonValido(){
+        echo "Invalid URL";
+        header("HTTP/1.1 400 Bad Request");
+        exit();
     }
 }

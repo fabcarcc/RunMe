@@ -21,7 +21,7 @@ class CLog
     static function mostraElenco(){
         $user = USession::get('user');
         if (! $user) {
-            static::nonAutorizzato();
+            CFrontController::nonAutorizzato();
         }
         if ($user->getAdmin()) {
             static::mostraSelect();
@@ -33,7 +33,7 @@ class CLog
 
     static function mostraLogUtente(int $iduser) {
         $user = USession::get('user');
-        if ( !$user || ( !$user->getAdmin() && $user->getId() != $iduser) ) static::nonAutorizzato();
+        if ( !$user || ( !$user->getAdmin() && $user->getId() != $iduser) ) CFrontController::nonAutorizzato();
         $fp = FPersistentManager::getInstance();
         $logs = $fp->load('ELog',$iduser,'idUtente',false);
 
@@ -46,7 +46,7 @@ class CLog
 
     static function mostraLogEsecuzione(int $idesecuzione) {
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) static::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
         $logs = $fp->load('ELog',$idesecuzione,'idEsecuzione',false);
@@ -62,12 +62,6 @@ class CLog
         $esecuzioni = $fp->getAll('EEsecuzione');
         $view = new VLog();
         $view->mostraSelect($utenti, $esecuzioni);
-    }
-
-    private static function nonAutorizzato() {
-        echo "Forbidden";
-        header("HTTP/1.1 403 Forbidden");
-        exit();
     }
 
 }

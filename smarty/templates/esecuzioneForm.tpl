@@ -38,14 +38,6 @@
 
             </tr>
             {/if}
-{*            <tr>*}
-{*                <th scope="row" class="text-center">{$r@iteration}</th>*}
-{*                {if isset($admin)}*}
-{*                    <td style="width: 10%" class="text-center"><img src="Assets/img/pencil.svg">&nbsp;&nbsp;<img src="Assets/img/files.svg">&nbsp;&nbsp;<img src="Assets/img/trash.svg"></td>*}
-{*                {/if}*}
-{*                <td class="p-0"><div class="position-relative p-2"><a href="Esecuzione/run/{$r->getId()}" class="stretched-link">{$r->getNome()}</a></div></td>*}
-{*                <td class="p-0"><div class="position-relative p-2"><a href="Esecuzione/run/{$r->getId()}" class="stretched-link">{$r->getDescrizione()}</a></div></td>*}
-{*            </tr>*}
 
             {foreachelse}
             <tr>
@@ -58,7 +50,7 @@
         {/foreach}
 
             <tr>
-                <td colspan="3" class="text-end">  <button type="submit" name="pippo" class="btn btn-primary">Esegui</button><input type="hidden" name="pp" value="ciao"></td>
+                <td colspan="3" class="text-end">  <button type="submit" class="btn btn-primary">Esegui</button></td>
             </tr>
         </table>
         </form>
@@ -67,15 +59,5 @@
         </div>
     </div>
 
-{*    <script>*}
-{*        window.onload = toggleSelect(); // to disable select on load if needed*}
-
-{*        function toggleSelect()*}
-{*        {*}
-{*            var isChecked = document.getElementById("stOne").checked;*}
-{*            document.getElementById("selectOne").disabled = !isChecked;*}
-{*        }*}
-
-{*    </script>*}
 {/block}
 

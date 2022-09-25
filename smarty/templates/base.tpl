@@ -56,7 +56,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false"><strong>{$user->getUsername()}</strong></a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     {if $user->getAdmin()}
-                                        <li><a class="dropdown-item" href="#">Gestisci Utenti</a></li>
+                                        <li><a class="dropdown-item" href="/RunMe/Utente">Gestisci Utenti</a></li>
                                         <li><a class="dropdown-item" href="#">Gestisci Permessi</a></li>
                                         <li><a class="dropdown-item" href="/RunMe/Log">Visualizza Log</a></li>
                                     {else}
