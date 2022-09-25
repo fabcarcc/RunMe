@@ -17,6 +17,7 @@ class EUtente extends EGenericObject
     private string $password;
     private ?string $email;
     private bool $admin;
+    private bool $abilitato = true;
 
     /**
      * @return bool
@@ -80,6 +81,22 @@ class EUtente extends EGenericObject
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAbilitato(): bool
+    {
+        return $this->abilitato;
+    }
+
+    /**
+     * @param bool $abilitato
+     */
+    public function setAbilitato(bool $abilitato): void
+    {
+        $this->abilitato = $abilitato;
     }
 
 

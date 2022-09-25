@@ -3,8 +3,8 @@
 class FUtente extends FGenericObject
 {
     const TABLE = 'Utenti';
-    const COLUMN = array("username", "password", "email", "admin");
-    const COLUMN_TYPE = array(PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_BOOL);
+    const COLUMN = array("username", "password", "email", "admin", "abilitato");
+    const COLUMN_TYPE = array(PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_STR, PDO::PARAM_BOOL, PDO::PARAM_BOOL);
     const ENTITY_CLASS = "EUtente";
 
 
