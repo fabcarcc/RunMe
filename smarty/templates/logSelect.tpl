@@ -20,7 +20,8 @@
                        {if ($u->getId() == -1)}
                             list-group-item-secondary "><i>_ Utente Anonimo _</i></a>
                        {else}
-                           {if ($u->getAdmin()) }list-group-item-primary{/if}
+                           {if ($u->getAdmin()) } list-group-item-primary{/if}
+                           {if (!$u->getAbilitato())} text-muted fst-italic{/if}
                            ">{$u->getUsername()}</a>
                        {/if}
                     {/foreach}
@@ -43,7 +44,7 @@
 
     </div>
     <div class="text-center mt-4 mb-4">
-        <a href="/RunMe/">Torna all'elenco</a>
+        <a href="/RunMe/">Torna alle Esecuzioni</a>
     </div>
 
     {/block}

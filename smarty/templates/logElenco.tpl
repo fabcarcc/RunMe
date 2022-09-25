@@ -45,7 +45,7 @@
         </tbody>
     </table>
     <div class="text-center mt-4 mb-4">
-        <a href="/RunMe/">Torna all'elenco</a>
+        <a href="/RunMe/Log">Visualizza Log</a>&nbsp;&nbsp;<a href="/RunMe/">Torna alle Esecuzioni</a>
     </div>
 
 {/block}
