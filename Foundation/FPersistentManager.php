@@ -356,7 +356,6 @@ class FPersistentManager
             } else {
                 $stmt->bindValue(":id", $id);
             }
-
             $result = $stmt->execute();
 
             //$this->__destruct();

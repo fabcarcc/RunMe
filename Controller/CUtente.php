@@ -178,12 +178,29 @@ class CUtente
                 else {
                     $msg = "Errore nella creazione dell'utente!";
                     USession::set('message',$msg);
-                    USession::set('messageType','error');
+                    USession::set('messageType','danger');
                 }
             }
         }
         if ($resta) header('Location: /RunMe/Utente/newmod');
         else header('Location: /RunMe/Utente');
 
+    }
+
+    static function delete(int $id){
+        $user = USession::get('user');
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        $fp = FPersistentManager::getInstance();
+        if ($fp->remove('EUtente',$id)) {
+            $msg = "Utente eliminato Correttamente";
+            USession::set('message',$msg);
+            USession::set('messageType','success');
+        }
+        else {
+            $msg = "Errore durante l'eliminazione dell'Utente";
+            USession::set('message',$msg);
+            USession::set('messageType','danger');
+        }
+        header('Location: /RunMe/Utente');
     }
 }
