@@ -162,6 +162,13 @@ class ELog extends EGenericObject
                 $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha revocato i diritti di amministratore a <strong>" . $user->getUsername() . "</strong>";
                 break;
 
+
+            case 38:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha autorizzato <strong>" . $user->getUsername() . "</strong> ad eseguire <strong>" . $esecuzione->getNome() . "</strong>";
+                break;
+            case 39:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha impedito a <strong>" . $user->getUsername() . "</strong> di eseguire <strong>" . $esecuzione->getNome() . "</strong>";
+                break;
         }
         $this->setTesto($msg);
     }

@@ -26,4 +26,10 @@ abstract class EGenericObject
         return $fp->store($this);
     }
 
+    public function delete(): bool
+    {
+        $fp = FPersistentManager::getInstance();
+        return $fp->remove(get_class($this),$this->getId());
+    }
+
 }

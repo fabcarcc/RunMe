@@ -132,7 +132,7 @@ class CUtente
                 else {
                     $msg = "Errore nella modifica dell'utente!";
                     USession::set('message',$msg);
-                    USession::set('messageType','error');
+                    USession::set('messageType','danger');
                 }
             }
             else $resta = true;
