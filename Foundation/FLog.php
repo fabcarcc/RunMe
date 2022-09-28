@@ -15,8 +15,9 @@ class FLog extends FGenericObject
     {
         if (!$key) $key = static::DEFAULT_KEY;
         if ($key == 'idUtente') {
-            return "SELECT * FROM ". static::TABLE . " WHERE idUtente = :id OR idAdmin = :id";
+            return "SELECT * FROM ". static::TABLE . " WHERE idUtente = :id OR idAdmin = :id ORDER BY data DESC";
         }
-        return "SELECT * FROM " . static::TABLE . " WHERE " . $key . " = :id;";
+        return "SELECT * FROM " . static::TABLE . " WHERE " . $key . " = :id ORDER BY data DESC";
     }
+
 }
