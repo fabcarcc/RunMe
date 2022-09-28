@@ -51,7 +51,7 @@ class CUtente
     static function newmod(int $id = null){
         $user = USession::get('user');
         if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
-        if ($id){
+        if (!is_null($id)){
             if ($id == -1) CFrontController::nonValido();
             $fp = FPersistentManager::getInstance();
             $target = $fp->load('EUtente', $id);
