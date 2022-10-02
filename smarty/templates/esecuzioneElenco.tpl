@@ -37,7 +37,11 @@
             <tr>
                 <th scope="row" class="text-center">{$r@iteration}</th>
                 {if isset($admin)}
-                    <td style="width: 10%" class="text-center"><a href="/RunMe/Esecuzione/newmod/{$r->getId()}"><img src="/RunMe/Assets/img/pencil.svg"></a>&nbsp;&nbsp;<img src="/RunMe/Assets/img/files.svg">&nbsp;&nbsp;<img src="/RunMe/Assets/img/trash.svg"></td>
+                    <td style="width: 10%" class="text-center">
+                        <a href="/RunMe/Esecuzione/newmod/{$r->getId()}"><img src="/RunMe/Assets/img/pencil.svg" alt="Modifica" title="Modifica"></a>&nbsp;&nbsp;
+                        <a href="/RunMe/Esecuzione/clona/{$r->getId()}"><img src="/RunMe/Assets/img/files.svg" alt="Clona" title="Clona"></a>&nbsp;&nbsp;
+                        <img src="/RunMe/Assets/img/trash.svg">
+                    </td>
                 {/if}
                 <td class="p-0"><div class="position-relative p-2"><a href="Esecuzione/run/{$r->getId()}" class="stretched-link">{$r->getNome()}</a></div></td>
                 <td class="p-0"><div class="position-relative p-2"><a href="Esecuzione/run/{$r->getId()}" class="stretched-link">{$r->getDescrizione()}</a></div></td>

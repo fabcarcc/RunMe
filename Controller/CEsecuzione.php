@@ -250,10 +250,6 @@ class CEsecuzione
 
     }
 
-
-
-
-
     private static function listaEseguibili(){
         global $config;
         $dir = $config['scriptDir'];
@@ -265,6 +261,41 @@ class CEsecuzione
             }
         }
         return $eseguibili;
+    }
+
+    static function clona(int $id){
+        $user = USession::get('user');
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        $fp = FPersistentManager::getInstance();
+        $target = $fp->load('EEsecuzione', $id);
+        $target->caricaParametri();
+
+        $nome = $target->getNome() . '_clone';
+        $i = 2;
+        while ($fp->exist('EEsecuzione',$nome,'Nome')) {
+            $nome = $target->getNome() . '_clone_(' . $i . ')';
+            $i++;
+        }
+        $target->setId(null);
+        $target->setNome($nome);
+
+        if ($target->save()) {
+            $loggedUser = USession::get('user');
+            $msg = "Esecuzione Clonata correttamente";
+            CLog::generaLog(23, $loggedUser,null, $target);
+
+            USession::set('messageType','success');
+        }
+        else {
+            $msg = "Qualcosa è andato storto!";
+            USession::set('messageType','danger');
+        }
+
+        USession::set('message',$msg);
+
+        header('Location: /RunMe/Esecuzione');
+
+
     }
 
 }

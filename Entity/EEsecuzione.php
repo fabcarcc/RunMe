@@ -122,7 +122,6 @@ class EEsecuzione extends EGenericObject
             $p->setId(null);
             if (!$p->save()) return false;
         }
-        echo "4";
         return true;
     }
 

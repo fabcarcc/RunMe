@@ -22,6 +22,7 @@ class ELog extends EGenericObject
      * 20 - L'Admin crea una esecuzione
      * 21 - L'Admin elimina una esecuzione
      * 22 - L'Admin modifica una esecuzione
+     * 23 - L'Admin clona una esecuzione
      *
      * 38 - L'Admin da a un utente il permesso per una esecuzione
      * 39 - L'Admin toglie a un utente il permesso per una esecuzione
@@ -164,13 +165,16 @@ class ELog extends EGenericObject
                 break;
 
             case 20:
-                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha creato l'esecizione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha creato l'esecuzione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
                 break;
             case 21:
-                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha eliminato l'esecizione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha eliminato l'esecuzione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
                 break;
             case 22:
-                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha modificato l'esecizione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha modificato l'esecuzione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
+                break;
+            case 23:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha clonato l'esecuzione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
                 break;
 
             case 38:
