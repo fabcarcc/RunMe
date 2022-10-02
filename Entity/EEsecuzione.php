@@ -6,7 +6,7 @@ class EEsecuzione extends EGenericObject
     private string $descrizione;
     private string $eseguibile;
     private bool $mostraOutput;
-    private bool $disabilitato;
+    private bool $abilitato;
     private ?array $parametri;
 
     /**
@@ -76,17 +76,17 @@ class EEsecuzione extends EGenericObject
     /**
      * @return bool
      */
-    public function getDisabilitato(): bool
+    public function getAbilitato(): bool
     {
-        return $this->disabilitato;
+        return $this->abilitato;
     }
 
     /**
-     * @param bool $disabilitato
+     * @param bool $abilitato
      */
-    public function setDisabilitato(bool $disabilitato): void
+    public function setAbilitato(bool $abilitato): void
     {
-        $this->disabilitato = $disabilitato;
+        $this->abilitato = $abilitato;
     }
 
     /**
@@ -109,6 +109,21 @@ class EEsecuzione extends EGenericObject
         $fp = FPersistentManager::getInstance();
         $param = $fp->load('EParametro', $this->getId(), 'idEsecuzione', false);
         $this->setParametri($param);
+    }
+
+    public function save() : bool {
+        if ($this->getId()) {
+            $fp = FPersistentManager::getInstance();
+            if (!$fp->remove('EParametro',$this->getId(),'idEsecuzione')) return false;
+        }
+        if (!parent::save()) return false;
+        foreach ($this->getParametri() as $p) {
+            $p->setIdEsecuzione($this->getId());
+            $p->setId(null);
+            if (!$p->save()) return false;
+        }
+        echo "4";
+        return true;
     }
 
 }

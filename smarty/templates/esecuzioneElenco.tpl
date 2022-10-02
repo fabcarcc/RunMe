@@ -37,7 +37,7 @@
             <tr>
                 <th scope="row" class="text-center">{$r@iteration}</th>
                 {if isset($admin)}
-                    <td style="width: 10%" class="text-center"><img src="/RunMe/Assets/img/pencil.svg">&nbsp;&nbsp;<img src="/RunMe/Assets/img/files.svg">&nbsp;&nbsp;<img src="/RunMe/Assets/img/trash.svg"></td>
+                    <td style="width: 10%" class="text-center"><a href="/RunMe/Esecuzione/newmod/{$r->getId()}"><img src="/RunMe/Assets/img/pencil.svg"></a>&nbsp;&nbsp;<img src="/RunMe/Assets/img/files.svg">&nbsp;&nbsp;<img src="/RunMe/Assets/img/trash.svg"></td>
                 {/if}
                 <td class="p-0"><div class="position-relative p-2"><a href="Esecuzione/run/{$r->getId()}" class="stretched-link">{$r->getNome()}</a></div></td>
                 <td class="p-0"><div class="position-relative p-2"><a href="Esecuzione/run/{$r->getId()}" class="stretched-link">{$r->getDescrizione()}</a></div></td>
@@ -54,7 +54,7 @@
         <tr>
             <th scope="row" class="text-center">&nbsp;</th>
 
-            <td style="width: 10%" class="text-center"><img src="/RunMe/Assets/img/plus-square.svg">&nbsp;&nbsp;</td>
+            <td style="width: 10%" class="text-center"><a href="/RunMe/Esecuzione/newmod/"><img src="/RunMe/Assets/img/plus-square.svg"></a>&nbsp;&nbsp;</td>
             <td colspan="2" class="text-muted small"><em>Aggiungi Nuova esecuzione</em></td>
         </tr>
 

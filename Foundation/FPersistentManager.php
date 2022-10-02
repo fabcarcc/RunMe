@@ -274,6 +274,7 @@ class FPersistentManager
             $sql = $foundClass::$method();
 
         if ($sql) {
+            echo $sql;
             return $this->execStore($obj, $sql);
         }
         return false;

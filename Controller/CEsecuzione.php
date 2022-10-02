@@ -1,5 +1,7 @@
 <?php
 
+require_once 'includes/config.inc.php';
+
 class CEsecuzione
 {
     const DEFAULT_METHOD = 'mostraElenco';
@@ -153,7 +155,116 @@ class CEsecuzione
         }
     }
 
+    static function newmod(int $id = null){
+        $user = USession::get('user');
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if (!is_null($id)){
+            if ($id == -1) CFrontController::nonValido();
+            $fp = FPersistentManager::getInstance();
+            $target = $fp->load('EEsecuzione', $id);
+            if (!$target) CFrontController::nonValido();
+
+            if ($_SERVER['REQUEST_METHOD']=="GET") {
+                $target->caricaParametri();
+                $view = new VEsecuzione();
+                $view->mostraFormNewMod(static::listaEseguibili(), $target);
+            }
+            else if ($_SERVER['REQUEST_METHOD']=="POST") {
+                static::modificaEsecuzione($_POST, $target);
+            }
+        }
+        else{
+            if ($_SERVER['REQUEST_METHOD']=="GET") {
+                $view = new VEsecuzione();
+                $view->mostraFormNewMod(static::listaEseguibili());
+            }
+            else if ($_SERVER['REQUEST_METHOD']=="POST") {
+                static::modificaEsecuzione($_POST);
+            }
+        }
+    }
+
+    private static function modificaEsecuzione($val, $target = null){
+        //debug($val);
+
+        $new = false;
+        if (!$target) {
+            $target = new EEsecuzione();
+            $new = true;
+        }
+
+        $target->setNome($val['nome']);
+        $target->setDescrizione($val['descrizione']);
+        $target->setEseguibile($val['eseguibile']);
+        if ($val['mostraoutput']) $target->setMostraOutput(true); else $target->setMostraOutput(false);
+        if ($val['abilitato']) $target->setAbilitato(true); else $target->setAbilitato(false);
+
+        $npar = (count($val) - 5) / 7;
+        $i = 1;
+
+        $parametri = [];
+
+        while ($npar > 0) {
+            if (array_key_exists($i . 'nome', $val)) {
+                $p = new EParametro();
+                $p->setNome($val[$i . 'nome']);
+                $p->setDescrizione($val[$i . 'descrizione']);
+                $p->setTipoParametro($val[$i . 'tipoParametro']);
+                $p->setPre($val[$i . 'pre']);
+                $p->setValore($val[$i . 'valore']);
+                $p->setPost($val[$i . 'post']);
+                $p->setTipoValore($val[$i . 'tipoValore']);
+
+                $parametri[] = $p;
+
+                $npar--;
+            }
+            $i++;
+        }
+
+        $target->setParametri($parametri);
+
+        if ($target->save()) {
+            $loggedUser = USession::get('user');
+
+            if ($new) {
+                $msg = "Esecuzione Creata correttamente";
+                CLog::generaLog(20, $loggedUser,null, $target);
+            }
+            else {
+                $msg = "Esecuzione Modificata correttamente";
+                CLog::generaLog(22, $loggedUser,null, $target);
+
+            }
+            USession::set('messageType','success');
+
+        }
+        else {
+            $msg = "Qualcosa è andato storto!";
+            USession::set('messageType','danger');
+        }
+
+        USession::set('message',$msg);
+
+        header('Location: /RunMe/Esecuzione');
+
+    }
 
 
+
+
+
+    private static function listaEseguibili(){
+        global $config;
+        $dir = $config['scriptDir'];
+        $files = scandir($dir);
+        $eseguibili = [];
+        foreach ($files as $f) {
+            if ($f !== '.' && $f !== '..'  && is_file($dir . $f) && is_executable($dir . $f)) {
+                $eseguibili[] = $f;
+            }
+        }
+        return $eseguibili;
+    }
 
 }

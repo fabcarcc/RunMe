@@ -3,7 +3,7 @@
 global $config;
 
 
-$config['debug']=false;
+$config['debug']=true;
 $config['mysql']['user'] = 'root';
 $config['mysql']['password'] = 'password';
 $config['mysql']['host'] = 'localhost';

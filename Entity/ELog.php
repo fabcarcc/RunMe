@@ -140,6 +140,7 @@ class ELog extends EGenericObject
                 else
                     $msg = "L'utente <i>anonimo</i> ha cercato di eseguire <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ") ma questa non è valida";
                 break;
+
             case 10:
                 $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha creato l'utente <strong>" . $user->getUsername() . "</strong>";
                 break;
@@ -162,6 +163,15 @@ class ELog extends EGenericObject
                 $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha revocato i diritti di amministratore a <strong>" . $user->getUsername() . "</strong>";
                 break;
 
+            case 20:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha creato l'esecizione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
+                break;
+            case 21:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha eliminato l'esecizione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
+                break;
+            case 22:
+                $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha modificato l'esecizione <strong>" . $esecuzione->getNome() . "</strong> (" . $esecuzione->getId() . ")";
+                break;
 
             case 38:
                 $msg = "L'amministratore <strong>" . $admin->getUsername() . "</strong> ha autorizzato <strong>" . $user->getUsername() . "</strong> ad eseguire <strong>" . $esecuzione->getNome() . "</strong>";

@@ -17,4 +17,12 @@ class VEsecuzione extends VBaseView
         if ($id) $this->assign('id',$id);
         $this->display("esecuzioneOutput.tpl");
     }
+
+    function mostraFormNewMod($eseguibili, $target = null){
+        if ($target){
+            $this->assign("target", $target);
+        }
+        $this->assign("eseguibili", $eseguibili);
+        $this->display("esecuzioneFormNewMod.tpl");
+    }
 }

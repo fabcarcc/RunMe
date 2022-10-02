@@ -1,84 +1,7 @@
 <?php
 require_once 'includes/autoload.inc.php';
-//require_once 'includes/config.inc.php';
+require_once 'includes/config.inc.php';
 
-//$VT=USingleton::getInstance('VTest');
-//$VT->show();
-
-//$p = new VBaseView();
-//$p->display('test.tpl');
-
-//function prima($num, $num2 = "bb") {
-//    echo $num;
-//    echo $num2;
-//};
-//
-//prima(1,2);
-//prima("aa","bb");
-
-
-//
-//function seconda (int $p, string $q = null) {
-//    if ($q) {prima($p,$q);}
-//    else {prima($p);}
-//}
-//seconda(1,"pp");
-//
-//$fp = FPersistentManager::getInstance();
-//$out = $fp->load("EUtente",0);
-//if ($out) {
-//print $out->getUsername();
-//print $out->getEmail();
-//}
-//else echo "no";
-
-////
-//$u = new EUtente();
-//$u->setUsername("pluto3");
-//$u->setEmail("aa@bb.it");
-//$u->setPassword(md5("password"));
-//$u->setAdmin(true);
-//$u->setId(4);
-//
-//USession::set('user',$u);
-//USession::del('user');
-
-//session_start();
-//$_SESSION['user'] = $u;
-//echo ("ciao");
-//////$u->setId(19);
-//////echo "1";
-//if ($u->save()) {echo "id: " . $u->getId();} else {echo "no";}
-//
-////$fp = FPersistentManager::getInstance();
-////
-////if ($fp->remove("EUtente", "cc@bb.it", "email") ) {echo "si";}
-////else {echo "no";}
-////
-//
-////echo FGenericObject::load() . PHP_EOL;
-////echo FUtente::update();
-////echo "<br>";
-////echo FParametro::update();
-//$row['id'] = 3;
-//$row['username'] = "root";
-//$row['password'] = "ppp";
-//$row['email'] = "io@pp.it";
-//$row['admin'] = false;
-////
-////$row[''] = ;
-////$row[''] = ;
-////$row[''] = ;
-////$row[''] = ;
-////$row[''] = ;
-////$row[''] = ;
-////$row[''] = ;
-//
-//$u = FUtente::createObjectFromRow($row);
-////echo gettype($u);
-////echo "<br>";
-//echo $u->getId();
-//echo $u->getUsername();
 //array("idEsecuzione", "nome", "descrizione", "pre", "default_value", "post", "obbligatorio", "tipo");
 //$row['id'] = 3;
 //$row['idEsecuzione'] = 4;
@@ -127,6 +50,59 @@ require_once 'includes/autoload.inc.php';
 //
 //echo "</pre>";
 
-$p = new ReflectionMethod("CEsecuzione::runnnn");
-echo $p->getName();
-echo $p->getNumberOfParameters();
+
+
+$fp = FPersistentManager::getInstance();
+//
+//
+//$e = new EEsecuzione();
+//$e->setNome('Prova');
+//$e->setDescrizione('');
+//$e->setEseguibile('aa.sh');
+//$e->setMostraOutput(true);
+//$e->setAbilitato(true);
+//
+//$param = [];
+//
+//$p = new EParametro();
+//$p->setNome('aaa');
+//$p->setDescrizione('bbb');
+//$p->setPre('');
+//$p->setValore('');
+//$p->setPost('');
+//$p->setTipoParametro(0);
+//$p->setTipoValore(0);
+//
+//$p2 = new EParametro();
+//$p2->setNome('ccc');
+//$p2->setDescrizione('ddd');
+//$p2->setPre('');
+//$p2->setValore('');
+//$p2->setPost('');
+//$p2->setTipoParametro(0);
+//$p2->setTipoValore(0);
+//
+//
+//
+//
+//
+//$param[] = $p;
+//$param[] = $p2;
+//$e->setParametri($param);
+
+
+$e = $fp->load('EEsecuzione',14);
+$e->caricaParametri();
+debug($e);
+$e->setDescrizione('ciao');
+$e->getParametri()[0]->setPre('ciao');
+
+$arr = $e->getParametri();
+unset($arr[1]);
+$e->setParametri($arr);
+
+if ($e->save()) echo 'SI'; else echo 'NO';
+
+
+
+

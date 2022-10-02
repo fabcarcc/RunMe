@@ -13,9 +13,9 @@ abstract class EGenericObject
     }
 
     /**
-     * @param int $id
+     * @param ?int $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
