@@ -298,4 +298,21 @@ class CEsecuzione
 
     }
 
+    static function delete(int $id){
+        $user = USession::get('user');
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        $fp = FPersistentManager::getInstance();
+        if ($fp->remove('EEsecuzione',$id)) {
+            $msg = "Esecuzione eliminata Correttamente";
+            USession::set('message',$msg);
+            USession::set('messageType','success');
+        }
+        else {
+            $msg = "Errore durante l'eliminazione dell'Esecuzione";
+            USession::set('message',$msg);
+            USession::set('messageType','danger');
+        }
+        header('Location: /RunMe/Esecuzione');
+    }
+
 }
