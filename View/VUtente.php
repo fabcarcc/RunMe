@@ -3,6 +3,8 @@
 class VUtente extends VBaseView
 {
     function mostraElenco($utenti){
+        global $config;
+        if ($config['allowDelete']) $this->assign("delete",true);
         $this->assign("Utenti", $utenti);
         $this->display("utenteElenco.tpl");
     }

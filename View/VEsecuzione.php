@@ -3,6 +3,8 @@
 class VEsecuzione extends VBaseView
 {
     function mostraElenco($esecuzioni){
+        global $config;
+        if ($config['allowDelete']) $this->assign("delete",true);
         $this->assign("results", $esecuzioni);
         $this->display("esecuzioneElenco.tpl");
     }

@@ -40,7 +40,9 @@
                     <td style="width: 10%" class="text-center">
                         <a href="/RunMe/Esecuzione/newmod/{$r->getId()}"><img src="/RunMe/Assets/img/pencil.svg" alt="Modifica" title="Modifica"></a>&nbsp;&nbsp;
                         <a href="/RunMe/Esecuzione/clona/{$r->getId()}"><img src="/RunMe/Assets/img/files.svg" alt="Clona" title="Clona"></a>&nbsp;&nbsp;
+                        {if isset($delete)}
                         <img alt="Elimina" title="Elimina" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-whatever="/RunMe/Esecuzione/delete/{$r->getId()}" src="/RunMe/Assets/img/trash.svg">
+                        {/if}
                     </td>
                 {/if}
                 <td class="p-0"><div class="position-relative p-2"><a href="Esecuzione/run/{$r->getId()}" class="stretched-link">{$r->getNome()}</a></div></td>

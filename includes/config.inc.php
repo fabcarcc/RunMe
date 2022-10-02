@@ -11,6 +11,8 @@ $config['mysql']['database'] = 'RunMe_APP';
 
 $config['scriptDir'] = "/var/www/html/RunMe/sampleScript/";
 
+$config['allowDelete'] = false;
+
 //configurazione server smtp per invio email
 //$config['smtp']['host'] = '10.0.0.60';
 //$config['smtp']['port'] = '25';

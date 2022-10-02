@@ -30,9 +30,13 @@
                 {if !$u->getAbilitato()} text-muted fst-italic{/if}
             ">
                 <th scope="row" class="text-center">{$u@iteration}</th>
-                <td style="width: 10%" class="text-center">{if $u->getID() != -1}
-                        <a href="/RunMe/Utente/newmod/{$u->getId()}"><img alt="Modifica" title="Modifica" src="/RunMe/Assets/img/pencil.svg"></a>&nbsp;&nbsp;
-                        <img alt="Elimina" title="Elimina" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-whatever="/RunMe/Utente/delete/{$u->getId()}" src="/RunMe/Assets/img/trash.svg">{/if}
+                <td style="width: 10%" class="text-center">
+                {if $u->getID() != -1}
+                    <a href="/RunMe/Utente/newmod/{$u->getId()}"><img alt="Modifica" title="Modifica" src="/RunMe/Assets/img/pencil.svg"></a>&nbsp;&nbsp;
+                    {if isset($delete)}
+                    <img alt="Elimina" title="Elimina" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-whatever="/RunMe/Utente/delete/{$u->getId()}" src="/RunMe/Assets/img/trash.svg">
+                    {/if}
+                {/if}
                 </td>
                 <td>{$u->getUsername()}</td>
                 <td>&nbsp;</td>

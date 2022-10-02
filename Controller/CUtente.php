@@ -188,6 +188,8 @@ class CUtente
     }
 
     static function delete(int $id){
+        global $config;
+        if (!$config['allowDelete']) CFrontController::nonValido();
         $user = USession::get('user');
         if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
         $fp = FPersistentManager::getInstance();
