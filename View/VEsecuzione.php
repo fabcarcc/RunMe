@@ -21,6 +21,8 @@ class VEsecuzione extends VBaseView
     }
 
     function mostraFormNewMod($eseguibili, $target = null){
+        global $config;
+        if ($config['allowUpload']) $this->assign("upload",true);
         if ($target){
             $this->assign("target", $target);
         }

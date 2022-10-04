@@ -38,6 +38,9 @@
                                 </select>
                             <div class="invalid-feedback">Campo richiesto!</div>
                         </div></td>
+                    {if isset($upload)}
+                    <td class="align-middle"><a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload</a> </td>
+                    {/if}
                 </tr>
                 <tr>
                     <td>Mostra Output:</td>
@@ -118,6 +121,36 @@
         let nparam = {$nparam}
     </script>
     <script src="/RunMe/Assets/js/addParametro.js"></script>
+
+    {if isset($upload)}
+    <!-- Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="exampleModalLabel">Upload</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="/RunMe/Esecuzione/Upload" id="upload" enctype="multipart/form-data" class="needs-validation" novalidate>
+                <div class="modal-body mb-3">
+                    <p>Carica un nuovo script</p>
+
+                        <div>
+                            <input type="file" name="upload" class="form-control" id="file" form="upload" required>
+                            {if isset($target)}<input type="hidden" name="id" value="{$target->getId()}">{/if}
+                            <div class="invalid-feedback">Seleziona un file!</div>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                    <button type="submit" form="upload" class="btn btn-primary" id="Upload">Carica</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {/if}
 
 {/block}
 

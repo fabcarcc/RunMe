@@ -317,4 +317,37 @@ class CEsecuzione
         header('Location: /RunMe/Esecuzione');
     }
 
+    static function upload(){
+        global $config;
+        if (! $config['allowUpload']) CFrontController::nonValido();
+
+        $user = USession::get('user');
+        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+
+        $uploaddir = $config['scriptDir'];
+        $uploadfile = $uploaddir . basename($_FILES['upload']['name']);
+
+        if (file_exists($uploadfile)) {
+            $msg = "Nome file già in uso.";
+            USession::set('messageType','warning');
+        }
+        else {
+
+            if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadfile)) {
+                chmod($uploadfile,0744);
+                $msg = "Upload completato correttamente.";
+                USession::set('messageType','success');
+
+            } else {
+                $msg = "Upload non riuscito.";
+                USession::set('messageType','danger');
+            }
+        }
+        USession::set('message',$msg);
+
+        $loc = 'Location: /RunMe/Esecuzione/newmod';
+        if (isset($_POST['id'])) $loc .= '/' . $_POST['id'];
+        header($loc);
+
+    }
 }
