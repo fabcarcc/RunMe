@@ -31,29 +31,47 @@ class CLog
         }
     }
 
-    static function mostraLogUtente(int $iduser) {
+    static function mostraLogUtente(int $iduser, $dl = false) {
         $user = USession::get('user');
         if ( !$user || ( !$user->getAdmin() && $user->getId() != $iduser) ) CFrontController::nonAutorizzato();
         $fp = FPersistentManager::getInstance();
         $logs = $fp->load('ELog',$iduser,'idUtente',false);
 
-        if ($user->getId() == $iduser) $targetUser = $user;
-        else $targetUser = $fp->load('EUtente', $iduser);
+        if ( $dl != 1) {
+            if ($user->getId() == $iduser) $targetUser = $user;
+            else $targetUser = $fp->load('EUtente', $iduser);
 
-        $view = new VLog();
-        $view->mostraLog($logs, $targetUser, $user->getAdmin());
+            $view = new VLog();
+            $view->mostraLog($logs, $targetUser, $user->getAdmin());
+        }
+        else {
+            static::downloadLog($logs);
+        }
     }
 
-    static function mostraLogEsecuzione(int $idesecuzione) {
+    static function mostraLogEsecuzione(int $idesecuzione, $dl = false) {
         $user = USession::get('user');
         if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
         $logs = $fp->load('ELog',$idesecuzione,'idEsecuzione',false);
 
-        $targetEsecuzione = $fp->load('EEsecuzione', $idesecuzione);
-        $view = new VLog();
-        $view->mostraLog($logs, $targetEsecuzione);
+        if ( $dl != 1 ) {
+            $targetEsecuzione = $fp->load('EEsecuzione', $idesecuzione);
+            $view = new VLog();
+            $view->mostraLog($logs, $targetEsecuzione);
+        }
+        else {
+            static::downloadLog($logs);
+        }
+    }
+
+    private static function downloadLog($logs) {
+        header('Content-type: text/plain');
+        header('Content-Disposition: attachment; filename="logs.txt"');
+        foreach ($logs as $row) {
+            echo $row->getData() . " - " . strip_tags($row->getTesto()) . PHP_EOL;
+        }
     }
 
     private static function mostraSelect(){
