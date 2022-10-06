@@ -2,8 +2,8 @@
 
 global $config;
 
+$config['debug']=false;
 
-$config['debug']=true;
 $config['mysql']['user'] = 'root';
 $config['mysql']['password'] = 'password';
 $config['mysql']['host'] = 'localhost';
@@ -21,7 +21,6 @@ $config['allowUpload'] = true;
 //$config['smtp']['username'] = '';
 //$config['smtp']['password'] = '';
 
-
 function debug($var){
     global $config;
     if ($config['debug']){
@@ -30,5 +29,3 @@ function debug($var){
         echo '</pre>';
     }
 }
-
-
