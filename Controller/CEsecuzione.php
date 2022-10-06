@@ -122,12 +122,14 @@ class CEsecuzione
             }
 
             if ($esecuzione->getMostraOutput()) {
+                USession::set('lastOutput',$output);
                 $msg .= "<br><strong>Output:</strong><br><br>";
                 $msg .= "<p class=\"font-monospace\">";
                 foreach ($output as $row) {
                     $msg .= $row . "<br>";
                 }
                 $msg .= "</p>";
+                $msg .= "<p><a class='alert-link' href='/RunMe/Esecuzione/lastOutput'>Salva Output</a>";
             }
             USession::set('message',$msg);
 
@@ -136,7 +138,17 @@ class CEsecuzione
 
         }
 
+    }
 
+    static function lastOutput() {
+        $output = USession::get('lastOutput');
+        if (!$output) CFrontController::nonValido();
+
+        header('Content-type: text/plain');
+        header('Content-Disposition: attachment; filename="output.txt"');
+        foreach ($output as $row) {
+            echo $row . PHP_EOL;
+        }
     }
 
     private static function autorizzato(int $id){
