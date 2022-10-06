@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Set 21, 2022 alle 17:52
+-- Creato il: Ott 06, 2022 alle 11:14
 -- Versione del server: 10.5.15-MariaDB-0+deb11u1
 -- Versione PHP: 7.4.30
 
@@ -21,20 +21,43 @@ SET time_zone = "+00:00";
 -- Database: `RunMe_APP`
 --
 
--- --------------------------------------------------------
-
 --
 -- Dump dei dati per la tabella `Esecuzioni`
 --
 
-INSERT INTO `Esecuzioni` (`id`, `nome`, `descrizione`, `eseguibile`, `mostraOutput`, `disabilitato`) VALUES
-(1, 'Lista', 'Mostra i file presenti nella cartella corrente. Solo parametri senza valori', 'ls.sh', 1, 0),
-(2, 'HelloWorld', 'Nessun parametro, exitcode casuale', 'hello.sh', 1, 0),
-(3, 'NoHello', 'Parametri obbligatori, ma nessun output', 'hello.sh', 0, 0),
-(4, 'Mirror', 'Tutti i tipi di parametri. Restituisce il comando eseguito.', 'mirror.sh', 1, 0),
-(5, 'Fail', 'Comando non esistente o non eseguibile.', 'nonexist.sh', 0, 0);
+INSERT INTO `Esecuzioni` (`id`, `nome`, `descrizione`, `eseguibile`, `mostraOutput`, `abilitato`) VALUES
+(1, 'Lista', 'Mostra i file presenti nella cartella corrente. Solo parametri senza valori', 'ls.sh', 1, 1),
+(2, 'HelloWorld', 'Nessun parametro, exitcode casuale', 'hello.sh', 1, 1),
+(3, 'NoHello', 'Parametri obbligatori, ma nessun output', 'hello.sh', 0, 1),
+(4, 'Mirror', 'Tutti i tipi di parametri. Restituisce il comando eseguito.', 'mirror.sh', 1, 1),
+(5, 'Fail', 'Comando non esistente o non eseguibile.', 'nonexist.sh', 0, 1);
 
--- --------------------------------------------------------
+--
+-- Dump dei dati per la tabella `Log`
+--
+
+INSERT INTO `Log` (`id`, `idAdmin`, `idUtente`, `idEsecuzione`, `data`, `tipo`, `testo`) VALUES
+(8, NULL, NULL, 3, '2022-09-22 17:33:56', 0, 'L\'utente <i>anonimo</i> ha eseguito <strong>NoHello</strong> (3)'),
+(9, NULL, -1, 3, '2022-09-24 16:19:18', 0, 'L\'utente <i>anonimo</i> ha eseguito <strong>NoHello</strong> (3)'),
+(10, NULL, 0, 4, '2022-09-24 16:24:41', 0, 'L\'utente <strong>admin</strong> ha eseguito <strong>Mirror</strong> (4)'),
+(12, NULL, 0, 1, '2022-09-25 16:25:54', 0, 'L\'utente <strong>admin</strong> ha eseguito <strong>Lista</strong> (1)'),
+(41, 0, -1, 1, '2022-09-27 17:14:58', 38, 'L\'amministratore <strong>admin</strong> ha autorizzato <strong>_anonymous_</strong> ad eseguire <strong>Lista</strong>'),
+(42, 0, -1, 2, '2022-09-27 17:19:11', 38, 'L\'amministratore <strong>admin</strong> ha autorizzato <strong>_anonymous_</strong> ad eseguire <strong>HelloWorld</strong>'),
+(43, 0, 0, 1, '2022-09-27 17:19:20', 38, 'L\'amministratore <strong>admin</strong> ha autorizzato <strong>admin</strong> ad eseguire <strong>Lista</strong>'),
+(44, 0, 0, 1, '2022-09-27 17:19:23', 39, 'L\'amministratore <strong>admin</strong> ha impedito a <strong>admin</strong> di eseguire <strong>Lista</strong>'),
+(51, NULL, -1, 2, '2022-09-28 07:33:54', 0, 'L\'utente <i>anonimo</i> ha eseguito <strong>HelloWorld</strong> (2)'),
+(52, NULL, -1, 2, '2022-09-28 07:34:02', 0, 'L\'utente <i>anonimo</i> ha eseguito <strong>HelloWorld</strong> (2)'),
+(53, 0, -1, 1, '2022-09-28 07:34:24', 39, 'L\'amministratore <strong>admin</strong> ha impedito a <strong>_Utente Guest_</strong> di eseguire <strong>Lista</strong>'),
+(69, NULL, 0, 2, '2022-09-28 14:49:00', 0, 'L\'utente <strong>admin</strong> ha eseguito <strong>HelloWorld</strong> (2)'),
+(88, 0, 28, NULL, '2022-10-06 08:08:30', 10, 'L\'amministratore <strong>admin</strong> ha creato l\'utente <strong>user1</strong>'),
+(89, 0, 28, 1, '2022-10-06 08:08:50', 38, 'L\'amministratore <strong>admin</strong> ha autorizzato <strong>user1</strong> ad eseguire <strong>Lista</strong>'),
+(90, 0, 28, 4, '2022-10-06 08:08:50', 38, 'L\'amministratore <strong>admin</strong> ha autorizzato <strong>user1</strong> ad eseguire <strong>Mirror</strong>'),
+(91, NULL, 28, 1, '2022-10-06 08:09:28', 0, 'L\'utente <strong>user1</strong> ha eseguito <strong>Lista</strong> (1)'),
+(92, NULL, 28, 1, '2022-10-06 08:10:37', 0, 'L\'utente <strong>user1</strong> ha eseguito <strong>Lista</strong> (1)'),
+(93, NULL, 28, 1, '2022-10-06 08:14:26', 0, 'L\'utente <strong>user1</strong> ha eseguito <strong>Lista</strong> (1)'),
+(94, NULL, 28, 1, '2022-10-06 08:15:09', 0, 'L\'utente <strong>user1</strong> ha eseguito <strong>Lista</strong> (1)'),
+(95, NULL, 28, 1, '2022-10-06 08:16:55', 0, 'L\'utente <strong>user1</strong> ha eseguito <strong>Lista</strong> (1)'),
+(96, NULL, 28, 1, '2022-10-06 08:17:13', 0, 'L\'utente <strong>user1</strong> ha eseguito <strong>Lista</strong> (1)');
 
 --
 -- Dump dei dati per la tabella `Parametri`
@@ -51,67 +74,21 @@ INSERT INTO `Parametri` (`id`, `idEsecuzione`, `nome`, `descrizione`, `pre`, `va
 (10, 4, 'Parametro 4', 'facoltativo (non attivo di default)', '--p4 ', 'si', '', 2, 1),
 (11, 4, 'Parametro 5', 'Nascosto', '-p5 ', 'nascosto', '', 3, 1);
 
--- --------------------------------------------------------
-
 --
 -- Dump dei dati per la tabella `Permessi`
 --
 
 INSERT INTO `Permessi` (`id`, `idUtente`, `idEsecuzione`) VALUES
-(2, 4, 1),
-(3, -1, 3),
-(4, 4, 5),
-(5, 4, 2),
-(6, 4, 4),
-(7, 20, 1),
-(8, 20, 4);
-
--- --------------------------------------------------------
+(14, -1, 2),
+(19, 28, 1),
+(20, 28, 4);
 
 --
 -- Dump dei dati per la tabella `Utenti`
 --
 
-INSERT INTO `Utenti` (`id`, `username`, `password`, `email`, `admin`) VALUES
-(4, 'user1', '5f4dcc3b5aa765d61d8327deb882cf99', 'user1@runme.it', 0),
-(20, 'user2', '5f4dcc3b5aa765d61d8327deb882cf99', 'user2@runme.it', 0);
-
-
---
--- AUTO_INCREMENT per le tabelle scaricate
---
-
---
--- AUTO_INCREMENT per la tabella `Esecuzioni`
---
-ALTER TABLE `Esecuzioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT per la tabella `Log`
---
-ALTER TABLE `Log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT per la tabella `Parametri`
---
-ALTER TABLE `Parametri`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT per la tabella `Permessi`
---
-ALTER TABLE `Permessi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT per la tabella `Utenti`
---
-ALTER TABLE `Utenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
-
+INSERT INTO `Utenti` (`id`, `username`, `password`, `email`, `admin`, `abilitato`) VALUES
+(1, 'user1', '5f4dcc3b5aa765d61d8327deb882cf99', '', 0, 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

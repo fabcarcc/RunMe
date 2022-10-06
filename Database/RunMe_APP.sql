@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Set 21, 2022 alle 17:52
+-- Creato il: Ott 06, 2022 alle 11:14
 -- Versione del server: 10.5.15-MariaDB-0+deb11u1
 -- Versione PHP: 7.4.30
 
@@ -33,7 +33,7 @@ CREATE TABLE `Esecuzioni` (
   `descrizione` varchar(255) DEFAULT NULL,
   `eseguibile` varchar(255) NOT NULL,
   `mostraOutput` tinyint(1) NOT NULL,
-  `disabilitato` tinyint(1) NOT NULL
+  `abilitato` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -47,6 +47,7 @@ CREATE TABLE `Log` (
   `idAdmin` int(11) DEFAULT NULL,
   `idUtente` int(11) DEFAULT NULL,
   `idEsecuzione` int(11) DEFAULT NULL,
+  `data` timestamp NOT NULL DEFAULT current_timestamp(),
   `tipo` int(11) NOT NULL,
   `testo` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -92,16 +93,17 @@ CREATE TABLE `Utenti` (
   `username` varchar(20) NOT NULL,
   `password` varchar(130) NOT NULL,
   `email` varchar(200) DEFAULT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
+  `abilitato` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `Utenti`
 --
 
-INSERT INTO `Utenti` (`id`, `username`, `password`, `email`, `admin`) VALUES
-(-1, '_anonymous_', 'aaa', NULL, 0),
-(0, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'admin@runme.it', 1);
+INSERT INTO `Utenti` (`id`, `username`, `password`, `email`, `admin`, `abilitato`) VALUES
+(-1, '_Utente Guest_', 'notanmd5hash', NULL, 0, 0),
+(0, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'admin@runme.it', 1, 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -120,8 +122,8 @@ ALTER TABLE `Esecuzioni`
 ALTER TABLE `Log`
   ADD PRIMARY KEY (`id`),
   ADD KEY `log-id_admin` (`idAdmin`),
-  ADD KEY `log-id_utente` (`idUtente`),
-  ADD KEY `log-id_esecuzione` (`idEsecuzione`);
+  ADD KEY `log-id_esecuzione` (`idEsecuzione`),
+  ADD KEY `log-id_utente` (`idUtente`);
 
 --
 -- Indici per le tabelle `Parametri`
@@ -146,6 +148,40 @@ ALTER TABLE `Utenti`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- AUTO_INCREMENT per le tabelle scaricate
+--
+
+--
+-- AUTO_INCREMENT per la tabella `Esecuzioni`
+--
+ALTER TABLE `Esecuzioni`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `Log`
+--
+ALTER TABLE `Log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `Parametri`
+--
+ALTER TABLE `Parametri`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `Permessi`
+--
+ALTER TABLE `Permessi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT per la tabella `Utenti`
+--
+ALTER TABLE `Utenti`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
 -- Limiti per le tabelle scaricate
 --
 
@@ -153,9 +189,9 @@ ALTER TABLE `Utenti`
 -- Limiti per la tabella `Log`
 --
 ALTER TABLE `Log`
-  ADD CONSTRAINT `log-id_admin` FOREIGN KEY (`idAdmin`) REFERENCES `Utenti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `log-id_esecuzione` FOREIGN KEY (`idEsecuzione`) REFERENCES `Esecuzioni` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `log-id_utente` FOREIGN KEY (`idUtente`) REFERENCES `Utenti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `log-id_admin` FOREIGN KEY (`idAdmin`) REFERENCES `Utenti` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `log-id_esecuzione` FOREIGN KEY (`idEsecuzione`) REFERENCES `Esecuzioni` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `log-id_utente` FOREIGN KEY (`idUtente`) REFERENCES `Utenti` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `Parametri`
