@@ -21,7 +21,7 @@ class CLog
     static function mostraElenco(){
         $user = USession::get('user');
         if (! $user) {
-            CFrontController::nonAutorizzato();
+            VUtility::nonAutorizzato();
         }
         if ($user->getAdmin()) {
             static::mostraSelect();
@@ -33,7 +33,7 @@ class CLog
 
     static function mostraLogUtente(int $iduser, $dl = false) {
         $user = USession::get('user');
-        if ( !$user || ( !$user->getAdmin() && $user->getId() != $iduser) ) CFrontController::nonAutorizzato();
+        if ( !$user || ( !$user->getAdmin() && $user->getId() != $iduser) ) VUtility::nonAutorizzato();
         $fp = FPersistentManager::getInstance();
         $logs = $fp->load('ELog',$iduser,'idUtente',false);
 
@@ -51,7 +51,7 @@ class CLog
 
     static function mostraLogEsecuzione(int $idesecuzione, $dl = false) {
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
         $logs = $fp->load('ELog',$idesecuzione,'idEsecuzione',false);
@@ -67,11 +67,11 @@ class CLog
     }
 
     private static function downloadLog($logs) {
-        header('Content-type: text/plain');
-        header('Content-Disposition: attachment; filename="logs.txt"');
+        $output = [];
         foreach ($logs as $row) {
-            echo $row->getData() . " - " . strip_tags($row->getTesto()) . PHP_EOL;
+            $output[] = $row->getData() . " - " . strip_tags($row->getTesto());
         }
+        VUtility::downloadFile('logs.txt',$output);
     }
 
     private static function mostraSelect(){

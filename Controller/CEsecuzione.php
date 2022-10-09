@@ -53,12 +53,12 @@ class CEsecuzione
     }
 
     static function run(int $id) {
-        if (!static::autorizzato($id)) CFrontController::nonAutorizzato();
+        if (!static::autorizzato($id)) VUtility::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
         $esecuzione = $fp->load('EEsecuzione', $id);
 
-        if (!$esecuzione) CFrontController::nonValido();
+        if (!$esecuzione) VUtility::nonValido();
 
         if ($_SERVER['REQUEST_METHOD']=="GET") {
             $view = new VEsecuzione();
@@ -108,7 +108,7 @@ class CEsecuzione
             }
             $output=null;
             $retval=null;
-            exec($c, $output, $retval);
+            exec(escapeshellcmd($c), $output, $retval);
 
             CLog::generaLog(0,null, USession::get('user'), $esecuzione);
 
@@ -142,13 +142,8 @@ class CEsecuzione
 
     static function lastOutput() {
         $output = USession::get('lastOutput');
-        if (!$output) CFrontController::nonValido();
-
-        header('Content-type: text/plain');
-        header('Content-Disposition: attachment; filename="output.txt"');
-        foreach ($output as $row) {
-            echo $row . PHP_EOL;
-        }
+        if (!$output) VUtility::nonValido();
+        VUtility::downloadFile('output.txt', $output);
     }
 
     private static function autorizzato(int $id){
@@ -169,12 +164,12 @@ class CEsecuzione
 
     static function newmod(int $id = null){
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
         if (!is_null($id)){
-            if ($id == -1) CFrontController::nonValido();
+            if ($id == -1) VUtility::nonValido();
             $fp = FPersistentManager::getInstance();
             $target = $fp->load('EEsecuzione', $id);
-            if (!$target) CFrontController::nonValido();
+            if (!$target) VUtility::nonValido();
 
             if ($_SERVER['REQUEST_METHOD']=="GET") {
                 $target->caricaParametri();
@@ -258,7 +253,7 @@ class CEsecuzione
 
         USession::set('message',$msg);
 
-        header('Location: /RunMe/Esecuzione');
+        VUtility::redirectTo('Esecuzione');
 
     }
 
@@ -277,7 +272,7 @@ class CEsecuzione
 
     static function clona(int $id){
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
         $fp = FPersistentManager::getInstance();
         $target = $fp->load('EEsecuzione', $id);
         $target->caricaParametri();
@@ -305,16 +300,15 @@ class CEsecuzione
 
         USession::set('message',$msg);
 
-        header('Location: /RunMe/Esecuzione');
-
+        VUtility::redirectTo('Esecuzione');
 
     }
 
     static function delete(int $id){
         global $config;
-        if (!$config['allowDelete']) CFrontController::nonValido();
+        if (!$config['allowDelete']) VUtility::nonValido();
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
         $fp = FPersistentManager::getInstance();
         if ($fp->remove('EEsecuzione',$id)) {
             $msg = "Esecuzione eliminata Correttamente";
@@ -326,15 +320,15 @@ class CEsecuzione
             USession::set('message',$msg);
             USession::set('messageType','danger');
         }
-        header('Location: /RunMe/Esecuzione');
+        VUtility::redirectTo('Esecuzione');
     }
 
     static function upload(){
         global $config;
-        if (! $config['allowUpload']) CFrontController::nonValido();
+        if (! $config['allowUpload']) VUtility::nonValido();
 
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
 
         $uploaddir = $config['scriptDir'];
         $uploadfile = $uploaddir . basename($_FILES['upload']['name']);
@@ -357,9 +351,9 @@ class CEsecuzione
         }
         USession::set('message',$msg);
 
-        $loc = 'Location: /RunMe/Esecuzione/newmod';
+        $loc = 'Esecuzione/newmod';
         if (isset($_POST['id'])) $loc .= '/' . $_POST['id'];
-        header($loc);
+        VUtility::redirectTo($loc);
 
     }
 }

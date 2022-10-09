@@ -28,17 +28,17 @@ class CUtente
             USession::set('message',$err);
             USession::set('messageType','danger');
         }
-        header('Location: /RunMe');
+        VUtility::redirectTo('');
     }
 
     static function logout(){
         USession::del('user');
-        header('Location: /RunMe');
+        VUtility::redirectTo('');
     }
 
     static function mostraElenco(){
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
         $utenti = $fp->getAll('EUtente');
@@ -50,12 +50,12 @@ class CUtente
 
     static function newmod(int $id = null){
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
         if (!is_null($id)){
-            if ($id == -1) CFrontController::nonValido();
+            if ($id == -1) VUtility::nonValido();
             $fp = FPersistentManager::getInstance();
             $target = $fp->load('EUtente', $id);
-            if (!$target) CFrontController::nonValido();
+            if (!$target) VUtility::nonValido();
 
             if ($_SERVER['REQUEST_METHOD']=="GET") {
                 $view = new VUtente();
@@ -137,8 +137,8 @@ class CUtente
             }
             else $resta = true;
         }
-        if ($resta) header('Location: /RunMe/Utente/newmod/' . $target->getId());
-        else header('Location: /RunMe/Utente');
+        if ($resta) VUtility::redirectTo('Utente/newmod/' . $target->getId());
+        else VUtility::redirectTo('Utente');
 
     }
 
@@ -182,16 +182,15 @@ class CUtente
                 }
             }
         }
-        if ($resta) header('Location: /RunMe/Utente/newmod');
-        else header('Location: /RunMe/Utente');
-
+        if ($resta) VUtility::redirectTo('Utente/newmod/');
+        else VUtility::redirectTo('Utente');
     }
 
     static function delete(int $id){
         global $config;
-        if (!$config['allowDelete']) CFrontController::nonValido();
+        if (!$config['allowDelete']) VUtility::nonValido();
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
         $fp = FPersistentManager::getInstance();
         if ($fp->remove('EUtente',$id)) {
             $msg = "Utente eliminato Correttamente";
@@ -203,6 +202,6 @@ class CUtente
             USession::set('message',$msg);
             USession::set('messageType','danger');
         }
-        header('Location: /RunMe/Utente');
+        VUtility::redirectTo('Utente');
     }
 }

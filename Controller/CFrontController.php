@@ -53,18 +53,7 @@ class CFrontController{
                 }
             }
         }
-        if ($error) static::nonValido();
+        if ($error) VUtility::nonValido();
     }
 
-    static function nonAutorizzato() {
-        echo "Forbidden";
-        header("HTTP/1.1 403 Forbidden");
-        exit();
-    }
-
-    static function nonValido(){
-        echo "Invalid URL";
-        header("HTTP/1.1 400 Bad Request");
-        exit();
-    }
 }

@@ -6,7 +6,7 @@ class CPermesso
 
     static function mostraSelect(){
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
         $utenti = $fp->getAll('EUtente');
@@ -17,7 +17,7 @@ class CPermesso
 
     static function permessiUtente(int $iduser) {
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
 
@@ -58,7 +58,7 @@ class CPermesso
 
     static function permessiEsecuzione(int $idesecuzione) {
         $user = USession::get('user');
-        if ( !$user || !$user->getAdmin() ) CFrontController::nonAutorizzato();
+        if ( !$user || !$user->getAdmin() ) VUtility::nonAutorizzato();
 
         $fp = FPersistentManager::getInstance();
 
@@ -188,10 +188,8 @@ class CPermesso
             USession::set('messageType','success');
         }
 
-        $loc = $isUser ? 'Location: /RunMe/Permesso/permessiUtente/' . $target->getId() : 'Location: /RunMe/Permesso/permessiEsecuzione/' . $target->getId();
-        //$loc = 'Location: /RunMe/Permesso/';
-        header($loc);
-        //echo $loc;
+        $loc = $isUser ? 'Permesso/permessiUtente/' . $target->getId() : 'Permesso/permessiEsecuzione/' . $target->getId();
+        VUtility::redirectTo($loc);
     }
 
 

@@ -30,7 +30,6 @@ class FPersistentManager
             global $config;
             $dsn = "mysql:host=" . $config['mysql']['host'] . ";dbname=" . $config['mysql']['database'];
             $this->db = new PDO ($dsn, $config['mysql']['user'], $config['mysql']['password']);
-//            echo "DB Connesso";
 
         } catch (PDOException $e) {
             echo "Errore : " . $e->getMessage();
@@ -45,7 +44,6 @@ class FPersistentManager
     {
         $this->db = null;
         static::$instance = null;
-//        echo "DB sconnesso";
     }
 
     /**
@@ -158,7 +156,6 @@ class FPersistentManager
         }
 
         if ($sql) {
-            //echo $sql;
             return $this->execSelect($class, $id, $sql, $single_result);
         } else return NULL;
     }
@@ -188,14 +185,10 @@ class FPersistentManager
             $obj = NULL;
 
             if ($single_result) {
-                //echo "SINGLE ";
                 $row = $stmt->fetch();
                 $obj = FPersistentManager::createObjectFromRow($class, $row);
             } else {
-                //echo "NOSINGLE ";
                 while ($row = $stmt->fetch()) {
-                    //echo "WHILE ";
-                    //print_r($row);
                     $obj[] = FPersistentManager::createObjectFromRow($class, $row);
                 }
             }
@@ -358,14 +351,12 @@ class FPersistentManager
             }
             $result = $stmt->execute();
 
-            //$this->__destruct();
-
             return $result;
 
         }
         catch (PDOException $e) {
             echo "Errore : " . $e->getMessage();
-            return FALSE;
+            return false;
         }
     }
 

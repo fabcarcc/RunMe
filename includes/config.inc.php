@@ -2,7 +2,7 @@
 
 global $config;
 
-$config['debug']=false;
+$config['appName'] = 'RunMe';
 
 $config['mysql']['user'] = 'root';
 $config['mysql']['password'] = 'password';
@@ -21,11 +21,3 @@ $config['allowUpload'] = true;
 //$config['smtp']['username'] = '';
 //$config['smtp']['password'] = '';
 
-function debug($var){
-    global $config;
-    if ($config['debug']){
-        echo '<pre>';
-        print_r($var);
-        echo '</pre>';
-    }
-}
