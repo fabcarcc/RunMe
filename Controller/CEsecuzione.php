@@ -129,7 +129,7 @@ class CEsecuzione
                     $msg .= $row . "<br>";
                 }
                 $msg .= "</p>";
-                $msg .= "<p><a class='alert-link' href='/RunMe/Esecuzione/lastOutput'>Salva Output</a>";
+                $msg .= "<p><a class='alert-link' href='/" . $config['appName'] . "/Esecuzione/lastOutput'>Salva Output</a>";
             }
             USession::set('message',$msg);
 
